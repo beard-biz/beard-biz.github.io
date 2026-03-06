@@ -1,2 +1,3 @@
-# beard-biz.github.io
-website
+# beard.biz
+
+What more do you want?
