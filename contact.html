@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="description" content="Contact form">
+    <meta name="keywords" content="contact, beard.biz">
+    <title>Contact</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <h1 class="default-title">Contact</h1>
+
+    <hr>
+    <nav>
+        <ul class="nav-flex">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="computer-zone.html">Computer Zone</a></li>
+            <li><a href="running.html">Running</a></li>
+            <li><a href="amateur-radio.html">Radio Shennanigans</a></li>
+            <li><a href="drones.html">Drone Piloting</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+    <hr>
+
+
+    <h2>Send Me a Message</h2>
+    <p>
+        Feel free to reach out about anything on this site( this form doesn't do anything).
+    </p>
+
+    <form class="contact-form">
+        <div class="form-row">
+            <label for="name">Your Name:</label>
+            <input type="text"
+                   id="name"
+                   name="name"
+                   placeholder="Enter your name"
+                   required
+                   aria-required="true">
+        </div>
+
+        <div class="form-row">
+            <label for="email">Your Email Address:</label>
+            <input type="email"
+                   id="email"
+                   name="email"
+                   placeholder="you@example.com"
+                   required
+                   aria-required="true">
+        </div>
+
+        <div class="form-row">
+            <label for="topic">What is your message about?</label>
+            <select id="topic" name="topic">
+                <option value="">-- Select a topic --</option>
+                <option value="ham-radio">Radio Shennanigans</option>
+                <option value="drones">Drone Piloting</option>
+                <option value="running">Running</option>
+                <option value="gaming">Computer Zone</option>
+                <option value="other">Other</option>
+            </select>
+        </div>
+
+        <div class="form-row">
+            <fieldset>
+                <legend>How did you find beard.biz?</legend>
+                <label><input type="radio" name="referral" value="search"> Search engine</label><br>
+                <label><input type="radio" name="referral" value="friend"> A friend</label><br>
+                <label><input type="radio" name="referral" value="socials"> Social Media</label><br>
+                <label><input type="radio" name="referral" value="other"> Other</label>
+            </fieldset>
+        </div>
+
+        <div class="form-row">
+            <label for="message">Your Message:</label><br>
+            <textarea id="message"
+                      name="message"
+                      rows="6"
+                      cols="50"
+                      placeholder="Type your message here..."
+                      required
+                      aria-required="true"></textarea>
+        </div>
+
+        <div class="form-row">
+            <input type="submit" value="Send Message">
+        </div>
+
+    </form>
+
+    <h2>Other Ways to Reach Me</h2>
+    <ul class="simple-list">
+        <li><a href="https://matrix.to/#/@alanbeardsley:matrix.org">@alanbeardsley:matrix.org</a></li>
+        <li>Send emails to alan@beard.biz</li>
+    </ul>
+
+    <img src="images/beam.gif" alt="Beam me up scotty" height="200">
+
+    <hr>
+    <p>beard.biz - <a href="index.html">Return to Home</a></p>
+
+</body>
+</html>

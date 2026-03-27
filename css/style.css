@@ -1,0 +1,129 @@
+
+
+@font-face {
+    font-family: 'Twofiftysix Bytes';
+    src: url('../font/TwofiftysixbytesRegular-5yD0j.otf') format('opentype');
+}
+
+/* .default-title {
+    font-family: "Arial Narrow", Arial, sans-serif;
+    font-size: 42px;
+    letter-spacing: 1px;
+} */
+.default-title {
+    font-family: 'Twofiftysix Bytes', serif;
+    font-size: 64px;
+    margin-bottom: 0;
+}
+
+.home {
+    font-size: 48px;
+}
+
+#tech-zone {
+    font-family: 'Twofiftysix Bytes', serif;
+    font-size: 64px;
+    margin-bottom: 0;
+}
+
+.drone-img img {
+    width: 700px;
+}
+.nav-flex {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+    list-style: none;
+    padding: 4px 0;
+    margin: 0 0 8px 0;
+}
+
+
+.hobby-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.hobby-grid div {
+    border: 1px solid #000000;
+    padding: 6px;
+}
+
+
+table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 8px 0;
+}
+
+th, td {
+    border: 1px solid #000000;
+    padding: 4px 8px;
+    text-align: left;
+}
+
+th {
+    background-color: #cccccc;
+}
+
+tr:nth-child(even) {
+    background-color: #eeeeee;
+}
+
+.specs caption {
+    caption-side: bottom;
+    padding-top: 4px;
+}
+
+.simple-list {
+    list-style: square;
+    margin-left: 20px;
+}
+
+.nested-list {
+    list-style: disc;
+    margin-left: 20px;
+}
+
+.nested-list li ul {
+    list-style: circle;
+    margin-left: 20px;
+}
+
+
+figure {
+    display: inline-block;
+    margin: 8px 0;
+    border: 1px solid #999999;
+    padding: 4px;
+}
+
+figcaption {
+    font-style: italic;
+    font-size: 0.85em;
+    text-align: center;
+    margin-top: 4px;
+}
+
+
+.form-row {
+    margin: 6px 0;
+}
+
+.form-row label {
+    display: block;
+    font-weight: bold;
+}
+
+
+body {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 8px;
+}
+
+hr {
+    border: 1px solid #000000;
+}
