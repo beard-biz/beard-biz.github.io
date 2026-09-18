@@ -1,0 +1,2603 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="description" content="Seven atomic models from about 400 BCE to 1926, with seven working instruments that produce the measurements behind each one. Every figure is computed live from the equations cited.">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%9A%9B%EF%B8%8F%3C/text%3E%3C/svg%3E">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Break the Atom">
+<meta property="og:description" content="Seven atomic models from about 400 BCE to 1926, with seven working instruments that produce the measurements behind each one. Every figure is computed live from the equations cited.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Break the Atom">
+<meta name="twitter:description" content="Seven atomic models from about 400 BCE to 1926, with seven working instruments that produce the measurements behind each one. Every figure is computed live from the equations cited.">
+
+<style>
+  /* Baseline the page expects. It sets its own dark palette below; these few rules
+     just give it a clean document to sit in, and keep content clear of phone
+     system bars (the sticky header reads the same inset).                        */
+  :root{
+    color-scheme: dark;
+    padding-top: env(safe-area-inset-top, 0px);
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+  html, body{ margin:0; }
+  body{ font: 14px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; background:#0B0912; }
+  img{ max-width:100%; }
+  [hidden]{ display:none !important; }
+</style>
+<title>Break the Atom</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Archivo:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* ============================================================
+   BREAK THE ATOM
+   Single visual world: a dark laboratory. Palette is taken from
+   the four visible hydrogen emission lines (656 / 486 / 434 / 410 nm)
+   plus the gold of Rutherford's foil.
+   ============================================================ */
+
+:root{
+  color-scheme: dark;
+
+  /* ground + neutrals, biased violet toward the 410 nm end */
+  --void:    #0B0912;
+  --void-2:  #100D1A;
+  --panel:   #15121F;
+  --panel-2: #1D1930;
+  --line:    #2B2442;
+  --line-2:  #3B3358;
+  --ink:     #EDE9F8;
+  --ink-2:   #A9A1C6;
+  --ink-3:   #6F6790;
+
+  /* the hydrogen spectrum, used semantically per era */
+  --halpha: #FF3B4E;  /* 656 nm  n=3->2 */
+  --hbeta:  #2FE3C6;  /* 486 nm  n=4->2 */
+  --hgamma: #5B78FF;  /* 434 nm  n=5->2 */
+  --hdelta: #A05CFF;  /* 410 nm  n=6->2 */
+  --gold:   #D9A441;  /* gold foil: the one UI accent */
+  --gold-2: #F0C878;
+
+  --accent: var(--gold);
+
+  --f-display: "Bodoni Moda", "Didot", "Playfair Display", Georgia, serif;
+  --f-body: "Archivo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --f-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  --step--1: clamp(.72rem, .69rem + .14vw, .8rem);
+  --step-0:  clamp(.95rem, .91rem + .2vw, 1.05rem);
+  --step-1:  clamp(1.1rem, 1.02rem + .34vw, 1.3rem);
+  --step-2:  clamp(1.35rem, 1.18rem + .72vw, 1.85rem);
+  --step-3:  clamp(1.8rem, 1.42rem + 1.6vw, 3rem);
+  --step-4:  clamp(2.6rem, 1.6rem + 4.4vw, 6.2rem);
+
+  --gutter: clamp(18px, 4vw, 56px);
+  --maxw: 1180px;
+}
+
+*, *::before, *::after{ box-sizing: border-box; }
+
+body{
+  margin:0;
+  background: var(--void);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: var(--step-0);
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+/* faint graph-paper wash so the ground is a surface, not a hole */
+body::before{
+  content:"";
+  position: fixed; inset:0; z-index:0; pointer-events:none;
+  background-image:
+    linear-gradient(to right, rgba(160,92,255,.055) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(160,92,255,.055) 1px, transparent 1px);
+  background-size: 46px 46px;
+  mask-image: radial-gradient(ellipse 120% 90% at 50% 0%, #000 0%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse 120% 90% at 50% 0%, #000 0%, transparent 78%);
+}
+
+h1,h2,h3,h4{ margin:0; text-wrap: balance; }
+figure{ margin:0; }   /* the UA default is margin-inline: 40px */
+p{ margin:0; }
+ul,ol{ margin:0; padding:0; list-style:none; }
+img,canvas{ max-width:100%; }
+a{ color: var(--gold-2); text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a:hover{ color: var(--ink); }
+
+:focus-visible{ outline: 2px solid var(--gold-2); outline-offset: 3px; border-radius: 3px; }
+
+.wrap{ width:100%; max-width: var(--maxw); margin-inline:auto; padding-inline: var(--gutter); position:relative; z-index:1; }
+
+.eyebrow{
+  font-family: var(--f-mono);
+  font-size: var(--step--1);
+  letter-spacing: .16em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+/* ------------------------------------------------------------ HERO */
+.hero{ position:relative; padding-block: clamp(40px, 7vw, 92px) clamp(28px, 4vw, 56px); }
+
+.hero .wrap{ display:grid; gap: clamp(18px, 2.4vw, 30px); }
+
+.hero h1{
+  font-family: var(--f-display);
+  font-weight: 900;
+  font-size: var(--step-4);
+  line-height: .88;
+  letter-spacing: -.015em;
+  margin-block: .08em .04em;
+}
+.hero h1 em{
+  font-style: italic;
+  font-weight: 500;
+  color: var(--gold);
+}
+
+.standfirst{
+  font-size: var(--step-1);
+  color: var(--ink-2);
+  max-width: 54ch;
+}
+.standfirst b{ color: var(--ink); font-weight:600; }
+
+/* ---- the year scrubber: the whole timeline in one control ---- */
+.scrub{
+  border: 1px solid var(--line);
+  background:
+    radial-gradient(ellipse 80% 70% at 50% 12%, rgba(160,92,255,.11), transparent 70%),
+    linear-gradient(180deg, var(--panel), var(--void-2));
+  border-radius: 2px;
+  overflow: hidden;
+}
+.scrub-stage{
+  position:relative; width:100%;
+  aspect-ratio: 16 / 6;
+  min-height: 190px;
+  max-height: 360px;
+}
+.scrub-stage canvas{ position:absolute; inset:0; width:100%; height:100%; display:block; }
+
+.scrub-tag{
+  position:absolute; left:0; top:0;
+  padding: 14px 16px;
+  display:flex; flex-direction:column; gap:2px;
+  pointer-events:none;
+}
+.scrub-tag .yr{
+  font-family: var(--f-mono); font-size: var(--step--1);
+  letter-spacing:.14em; color: var(--ink-3);
+}
+.scrub-tag .nm{
+  font-family: var(--f-display); font-weight:700;
+  font-size: var(--step-2); line-height:1.05;
+  color: var(--era, var(--ink));
+}
+.scrub-tag .who{ font-size: var(--step--1); color: var(--ink-2); font-family: var(--f-mono); }
+
+.scrub-bar{
+  border-top: 1px solid var(--line);
+  padding: 16px var(--gutter) 18px;
+  display:grid; gap:10px;
+}
+.scrub-bar input[type=range]{ width:100%; }
+.scrub-ticks{
+  display:grid;
+  grid-template-columns: repeat(7, 1fr);
+  font-family: var(--f-mono);
+  font-size: 10px;
+  letter-spacing:.06em;
+  color: var(--ink-3);
+}
+.scrub-ticks button{
+  background:none; border:0; padding:6px 0 0; margin:0;
+  color: inherit; font: inherit; cursor:pointer;
+  text-align:center; line-height:1.3;
+  border-top: 1px solid var(--line);
+  transition: color .18s;
+}
+.scrub-ticks button:hover{ color: var(--ink); }
+.scrub-ticks button[aria-current="true"]{ color: var(--gold); border-top-color: var(--gold); }
+
+.byline{
+  font-family: var(--f-mono);
+  font-size: var(--step--1);
+  color: var(--ink-3);
+  letter-spacing:.04em;
+  display:flex; flex-wrap:wrap; gap: 6px 14px;
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+}
+.byline .name{ color: var(--gold-2); }
+
+/* ---- range input, styled once, used everywhere ---- */
+input[type=range]{
+  -webkit-appearance:none; appearance:none;
+  background: transparent; height: 26px; cursor: grab; margin:0;
+}
+input[type=range]:active{ cursor: grabbing; }
+input[type=range]::-webkit-slider-runnable-track{
+  height: 2px; background: var(--line-2); border-radius:0;
+}
+input[type=range]::-moz-range-track{ height:2px; background: var(--line-2); }
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none; appearance:none;
+  width: 14px; height: 22px; margin-top:-10px;
+  background: var(--gold); border:0; border-radius:1px;
+  box-shadow: 0 0 0 1px var(--void), 0 0 14px rgba(217,164,65,.5);
+}
+input[type=range]::-moz-range-thumb{
+  width: 14px; height: 22px; background: var(--gold);
+  border:0; border-radius:1px;
+  box-shadow: 0 0 0 1px var(--void), 0 0 14px rgba(217,164,65,.5);
+}
+
+/* ------------------------------------------------------------ STATUS STRIP */
+.status{
+  position: sticky;
+  top: env(safe-area-inset-top, 0px);
+  z-index: 40;
+  background: rgba(11,9,18,.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-block: 1px solid var(--line);
+}
+.status-in{
+  max-width: var(--maxw); margin-inline:auto;
+  padding: 9px var(--gutter);
+  display:flex; align-items:center; gap: 10px 20px; flex-wrap:wrap;
+  font-family: var(--f-mono); font-size: 11px;
+  letter-spacing:.1em; text-transform:uppercase; color: var(--ink-3);
+}
+.status-in .now{ color: var(--ink); }
+.status-in .now b{ color: var(--era, var(--gold)); font-weight:600; }
+.status-in .score{ margin-left:auto; color: var(--ink-2); }
+.status-in .score b{ color: var(--gold); font-weight:600; font-variant-numeric: tabular-nums; }
+.beam{
+  flex: 1 1 120px; height: 2px; min-width: 80px;
+  background: var(--line-2); position:relative; overflow:hidden;
+}
+.beam i{
+  position:absolute; inset-block:0; left:0; width:0%;
+  background: linear-gradient(90deg, var(--halpha), var(--gold), var(--hbeta), var(--hgamma), var(--hdelta));
+  transition: width .3s ease;
+}
+
+/* ------------------------------------------------------------ SIDE RAIL */
+.rail{
+  position: fixed; left: 18px; top: 50%; transform: translateY(-50%);
+  z-index: 35; display:none; flex-direction:column; gap:2px;
+}
+@media (min-width: 1360px){ .rail{ display:flex; } }
+.rail a{
+  display:grid; grid-template-columns: 34px auto; align-items:center; gap:10px;
+  font-family: var(--f-mono); font-size:10px; letter-spacing:.1em;
+  color: var(--ink-3); text-decoration:none; padding: 5px 0;
+}
+.rail a .tick{ height:1px; background: var(--line-2); transition: background .2s, transform .2s; transform-origin:left; }
+.rail a span{ opacity:0; transition: opacity .2s; white-space:nowrap; }
+.rail a:hover span, .rail a[aria-current="true"] span{ opacity:1; }
+.rail a[aria-current="true"]{ color: var(--gold); }
+.rail a[aria-current="true"] .tick{ background: var(--gold); transform: scaleX(1.5); }
+
+/* ------------------------------------------------------------ STATION */
+.station{
+  padding-block: clamp(46px, 7vw, 104px);
+  border-top: 1px solid var(--line);
+  scroll-margin-top: 70px;
+}
+.station .wrap{ display:grid; gap: clamp(22px, 3vw, 40px); }
+
+.st-head{ display:grid; gap: 10px; max-width: 62ch; }
+.st-meta{
+  display:flex; align-items:baseline; gap: 14px; flex-wrap:wrap;
+  font-family: var(--f-mono); font-size: var(--step--1); letter-spacing:.12em;
+}
+.st-meta .idx{
+  color: var(--void); background: var(--era, var(--gold));
+  padding: 2px 7px; font-weight:600; border-radius:1px;
+}
+.st-meta .yr{ color: var(--ink); font-size: var(--step-1); letter-spacing:.02em; font-weight:500; }
+.st-meta .who{ color: var(--ink-3); text-transform:uppercase; }
+
+.st-head h2{
+  font-family: var(--f-display); font-weight:700;
+  font-size: var(--step-3); line-height: 1.02; letter-spacing:-.01em;
+}
+.st-head h2 em{ font-style:italic; font-weight:500; color: var(--era, var(--gold)); }
+.st-lede{ color: var(--ink-2); max-width: 58ch; }
+
+.st-body{
+  display:grid; gap: clamp(18px, 2.4vw, 30px);
+  grid-template-columns: minmax(0, 1.28fr) minmax(0, 1fr);
+  align-items: start;
+}
+@media (max-width: 900px){ .st-body{ grid-template-columns: minmax(0,1fr); } }
+
+/* ---- the instrument panel ---- */
+.lab{
+  border: 1px solid var(--line);
+  background: linear-gradient(180deg, var(--panel), var(--void-2));
+  display:grid;
+}
+.lab-head{
+  display:flex; align-items:baseline; justify-content:space-between; gap:12px; flex-wrap:wrap;
+  padding: 12px 16px; border-bottom: 1px solid var(--line);
+  background: rgba(0,0,0,.2);
+}
+.lab-head h3{
+  font-family: var(--f-display); font-weight:700; font-size: var(--step-1);
+  letter-spacing:.01em;
+}
+.lab-head .tagline{
+  font-family: var(--f-mono); font-size:10px; letter-spacing:.16em;
+  text-transform:uppercase; color: var(--ink-3);
+}
+.stage{ position:relative; width:100%; background: #07060D; }
+.stage canvas{ display:block; width:100%; height:100%; }
+.stage.ar-wide{ aspect-ratio: 16/9; min-height: 190px; }
+.stage.ar-square{ aspect-ratio: 4/3; min-height: 230px; }
+.stage-note{
+  position:absolute; left:10px; bottom:8px; right:10px;
+  font-family: var(--f-mono); font-size:10px; letter-spacing:.06em;
+  color: var(--ink-3); pointer-events:none; text-align:right;
+}
+
+.ctrls{
+  padding: 14px 16px; display:grid; gap: 12px;
+  border-top: 1px solid var(--line);
+}
+.row{ display:flex; flex-wrap:wrap; align-items:center; gap: 8px 12px; }
+.row.between{ justify-content:space-between; }
+
+.ctrl-label{
+  font-family: var(--f-mono); font-size:10px; letter-spacing:.14em;
+  text-transform:uppercase; color: var(--ink-3);
+}
+
+button.btn{
+  font-family: var(--f-mono); font-size: 11px; letter-spacing:.12em; text-transform:uppercase;
+  color: var(--ink); background: var(--panel-2);
+  border:1px solid var(--line-2); border-radius:1px;
+  padding: 9px 14px; cursor:pointer;
+  transition: background .15s, border-color .15s, color .15s, transform .08s;
+}
+button.btn:hover:not(:disabled){ background: var(--line); border-color: var(--ink-3); }
+button.btn:active:not(:disabled){ transform: translateY(1px); }
+button.btn:disabled{ opacity:.38; cursor:not-allowed; }
+button.btn.primary{
+  background: var(--era, var(--gold)); color: #0B0912; border-color: transparent; font-weight:600;
+}
+button.btn.primary:hover:not(:disabled){ filter: brightness(1.14); background: var(--era, var(--gold)); }
+button.btn[aria-pressed="true"]{
+  background: var(--era, var(--gold)); color:#0B0912; border-color:transparent; font-weight:600;
+}
+
+.ticks6{
+  display:flex; justify-content:space-between;
+  font-family: var(--f-mono); font-size:10px; letter-spacing:.08em; color: var(--ink-3);
+}
+.ticks6{ padding-inline: 4px; margin-top:-4px; }
+.ticks6 span{ min-width:1.2em; text-align:center; transition: color .15s; }
+.ticks6 span[data-on="1"]{ color: var(--era, var(--gold)); font-weight:600; }
+
+.seg{ display:flex; border:1px solid var(--line-2); border-radius:1px; overflow:hidden; }
+.seg button{
+  font-family: var(--f-mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  background: transparent; color: var(--ink-2); border:0; border-right:1px solid var(--line-2);
+  padding: 8px 11px; cursor:pointer; transition: background .15s, color .15s;
+}
+.seg button:last-child{ border-right:0; }
+.seg button:hover{ color: var(--ink); background: rgba(255,255,255,.04); }
+.seg button[aria-pressed="true"]{ background: var(--era, var(--gold)); color:#0B0912; font-weight:600; }
+
+/* numeric readouts */
+.readout{
+  display:grid; grid-template-columns: repeat(auto-fit, minmax(96px,1fr));
+  border-top: 1px solid var(--line);
+  font-family: var(--f-mono); font-variant-numeric: tabular-nums;
+}
+.readout div{
+  padding: 10px 14px; border-right: 1px solid var(--line);
+  display:grid; gap:3px; min-width:0;
+}
+.readout div:last-child{ border-right:0; }
+.readout dt, .readout .k{
+  font-size: 9.5px; letter-spacing:.14em; text-transform:uppercase; color: var(--ink-3);
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.readout dd, .readout .v{
+  margin:0; font-size: var(--step-1); color: var(--ink); line-height:1.15;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+}
+.readout .v small{ font-size:11px; color: var(--ink-3); letter-spacing:.04em; }
+.readout .v.hot{ color: var(--era, var(--gold)); }
+
+.verdict{
+  padding: 12px 16px; border-top:1px solid var(--line);
+  font-family: var(--f-mono); font-size: 11.5px; line-height:1.55;
+  color: var(--ink-2); letter-spacing:.02em; min-height: 3.1em;
+  display:block;
+}
+.verdict.win{ color: var(--era, var(--gold)); background: rgba(217,164,65,.05); }
+
+/* ---- the notes column ---- */
+.notes{ display:grid; gap: 16px; }
+
+.portrait{
+  border:1px solid var(--line); background:#07060D;
+  aspect-ratio: 5/3; position:relative; width:100%;
+}
+.portrait canvas{ display:block; width:100%; height:100%; }
+.portrait figcaption{
+  position:absolute; left:0; right:0; bottom:0;
+  padding: 7px 11px;
+  font-family: var(--f-mono); font-size:10px; letter-spacing:.09em;
+  color: var(--ink-3);
+  background: linear-gradient(180deg, transparent, rgba(7,6,13,.92));
+}
+
+.card{ border:1px solid var(--line); background: var(--panel); }
+.card > h3{
+  font-family: var(--f-mono); font-size:10px; letter-spacing:.17em; text-transform:uppercase;
+  color: var(--ink-3); padding: 11px 16px 0;
+}
+.card .body{ padding: 8px 16px 16px; display:grid; gap:9px; }
+
+ul.spec{ display:grid; gap:9px; }
+ul.spec li{
+  position:relative; padding-left: 24px;
+  font-size: var(--step--1); line-height:1.58; color: var(--ink-2);
+}
+ul.spec li::before{
+  content: attr(data-n); position:absolute; left:0; top:3px;
+  font-family: var(--f-mono); font-size:9.5px; color: var(--era, var(--gold));
+  letter-spacing:.06em;
+}
+ul.spec li b{ color: var(--ink); font-weight:600; }
+ul.spec li var{ font-family: var(--f-mono); font-style:normal; color: var(--ink); font-size:.95em; }
+
+.killer{
+  border:1px solid var(--line); border-left: 2px solid var(--halpha);
+  background: linear-gradient(90deg, rgba(255,59,78,.06), transparent 60%);
+  padding: 12px 15px; display:grid; gap:6px;
+}
+.killer h4{
+  font-family: var(--f-mono); font-size:10px; letter-spacing:.17em; text-transform:uppercase;
+  color: var(--halpha);
+}
+.killer p{ font-size: var(--step--1); color: var(--ink-2); line-height:1.58; }
+
+blockquote{
+  margin:0; padding: 14px 16px;
+  border:1px solid var(--line); background: var(--panel);
+  display:grid; gap:8px;
+}
+blockquote p{
+  font-family: var(--f-display); font-style:italic; font-size: var(--step-1);
+  line-height:1.4; color: var(--ink);
+}
+blockquote cite{
+  font-family: var(--f-mono); font-size:10px; letter-spacing:.11em; text-transform:uppercase;
+  color: var(--ink-3); font-style:normal;
+}
+
+/* ------------------------------------------------------------ LEDGER TABLE */
+.ledger{ padding-block: clamp(46px,7vw,96px); border-top:1px solid var(--line); }
+.ledger h2, .sources h2, .coda h2{
+  font-family: var(--f-display); font-weight:700; font-size: var(--step-3); line-height:1.05;
+}
+.tablewrap{ overflow-x:auto; border:1px solid var(--line); background: var(--panel); }
+table{ border-collapse: collapse; width:100%; min-width: 860px; font-size: var(--step--1); }
+th, td{ text-align:left; padding: 12px 14px; border-bottom:1px solid var(--line); vertical-align: top; }
+thead th{
+  font-family: var(--f-mono); font-size:9.5px; letter-spacing:.15em; text-transform:uppercase;
+  color: var(--ink-3); background: rgba(0,0,0,.25); position:sticky; top:0; white-space:nowrap;
+}
+tbody tr:last-child td{ border-bottom:0; }
+td.yr{ font-family: var(--f-mono); color: var(--ink); white-space:nowrap; font-variant-numeric: tabular-nums; }
+td.model{ color: var(--ink); font-weight:600; white-space:nowrap; }
+td.model i{ display:block; font-weight:400; font-style:normal; font-size:10px; font-family:var(--f-mono); color: var(--ink-3); letter-spacing:.06em; margin-top:2px; }
+td{ color: var(--ink-2); }
+tbody tr{ border-left: 2px solid transparent; }
+
+/* ------------------------------------------------------------ CODA + SOURCES */
+.coda{ padding-block: clamp(46px,7vw,96px); border-top:1px solid var(--line); }
+.coda .wrap{ display:grid; gap: 20px; }
+.coda-grid{ display:grid; gap:16px; grid-template-columns: repeat(auto-fit, minmax(240px,1fr)); }
+.coda-grid article{ border:1px solid var(--line); background: var(--panel); padding: 16px; display:grid; gap:8px; align-content:start; }
+.coda-grid h3{ font-family: var(--f-display); font-size: var(--step-1); font-weight:700; }
+.coda-grid .yr{ font-family: var(--f-mono); font-size:10px; letter-spacing:.14em; color: var(--gold); }
+.coda-grid p{ font-size: var(--step--1); color: var(--ink-2); }
+
+.sources{ padding-block: clamp(40px,6vw,80px); border-top:1px solid var(--line); }
+.sources .wrap{ display:grid; gap:16px; }
+.sources ol{ display:grid; gap:9px; counter-reset: s; }
+.sources li{
+  font-size: var(--step--1); color: var(--ink-2); line-height:1.5;
+  position:relative; padding-left: 28px;
+}
+.sources li::before{
+  counter-increment: s; content: counter(s,decimal-leading-zero);
+  position:absolute; left:0; top:2px;
+  font-family: var(--f-mono); font-size:10px; color: var(--ink-3);
+}
+
+footer.foot{
+  border-top:1px solid var(--line); padding-block: 30px 44px;
+  font-family: var(--f-mono); font-size:10.5px; letter-spacing:.09em;
+  color: var(--ink-3);
+}
+footer.foot .wrap{ display:flex; flex-wrap:wrap; gap:8px 20px; justify-content:space-between; }
+
+/* single-column grids must shrink with their container, not with their content */
+.hero .wrap, .station .wrap, .st-head, .lab, .notes, .card .body, ul.spec,
+.killer, blockquote, .coda .wrap, .sources .wrap, .sources ol, .scrub-bar,
+.ctrls, .readout div, .coda-grid article, .ledger .wrap{
+  grid-template-columns: minmax(0, 1fr);
+}
+
+/* ------------------------------------------------------------ MOTION */
+@keyframes flash{ from{ opacity:1 } to{ opacity:0 } }
+.pulse{ animation: flash .5s ease-out; }
+
+@media (prefers-reduced-motion: reduce){
+  *, *::before, *::after{ animation-duration:.001ms !important; transition-duration:.001ms !important; }
+}
+
+/* ------------------------------------------------------------ PRINT */
+@media print{
+  :root{ --void:#fff; --void-2:#fff; --panel:#fff; --panel-2:#fff;
+         --ink:#111; --ink-2:#333; --ink-3:#666; --line:#bbb; --line-2:#999; }
+  body{ background:#fff; color:#111; }
+  body::before, .rail, .status, .ctrls, .verdict, .scrub-bar{ display:none !important; }
+  .station{ break-inside: avoid; page-break-inside: avoid; }
+  .st-body{ grid-template-columns: 1fr 1fr; }
+  a{ color:#111; }
+}
+</style>
+</head>
+<body>
+
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">Chemistry · Module 2 · The evolution of the atomic model</p>
+    <h1>Break the<br><em>Atom</em></h1>
+    <p class="standfirst">
+      Seven pictures of the atom, from about 400 BCE to 1926. Each one held until an
+      instrument produced a number it could not account for. Seven instruments produced
+      those numbers, and they are all below, working. The first is a thought experiment,
+      because Democritus had nothing else. Drag the dial to see the shape change.
+    </p>
+
+    <div class="scrub">
+      <div class="scrub-stage">
+        <canvas id="heroCanvas"></canvas>
+        <div class="scrub-tag" id="heroTag">
+          <span class="yr">c. 400 BCE</span>
+          <span class="nm">The Uncuttable</span>
+          <span class="who">Democritus of Abdera</span>
+        </div>
+      </div>
+      <div class="scrub-bar">
+        <label class="ctrl-label" for="heroScrub">Drag through 2,326 years</label>
+        <input type="range" id="heroScrub" min="0" max="6" step="1" value="0" aria-label="Select an atomic model by year">
+        <div class="scrub-ticks" id="heroTicks"></div>
+      </div>
+    </div>
+
+    <p class="byline">
+      <span>Prepared by <span class="name">Alan</span></span>
+      <span>7 instruments, 7 models, 1 nucleus</span>
+      <span>Every figure is drawn from the equation quoted beside it</span>
+    </p>
+  </div>
+</header>
+
+<div class="status" id="status">
+  <div class="status-in">
+    <span class="now">Now viewing <b id="stNow">The Uncuttable</b></span>
+    <span class="beam"><i id="stBeam"></i></span>
+    <span class="score">Instruments used <b id="stScore">0</b>/7</span>
+  </div>
+</div>
+
+<nav class="rail" id="rail" aria-label="Timeline"></nav>
+
+<main>
+
+<!-- ===================================================== 00 DEMOCRITUS -->
+<section class="station" id="s0" style="--era: var(--ink-2)" data-name="The Uncuttable">
+  <div class="wrap">
+    <div class="st-head">
+      <p class="st-meta"><span class="idx" style="background:var(--ink-2)">00</span>
+        <span class="yr">c. 400 BCE</span>
+        <span class="who">Leucippus &amp; Democritus &middot; Abdera, Thrace</span></p>
+      <h2>Cut it in half. Then cut <em>that</em> half.</h2>
+      <p class="st-lede">Democritus ran no experiment. He ran an argument. Either matter divides without end, or the dividing stops somewhere. He took the second option and called the stopping point <em>&aacute;tomos</em>, uncuttable. The next atomic theory built on measurement came from Dalton in 1808, about 2,200 years later.</p>
+    </div>
+
+    <div class="st-body">
+      <div class="lab">
+        <div class="lab-head">
+          <h3>The Knife</h3>
+          <span class="tagline">Instrument 00 &middot; thought experiment</span>
+        </div>
+        <div class="stage ar-wide"><canvas id="knifeCanvas"></canvas></div>
+        <div class="ctrls">
+          <div class="row">
+            <button class="btn primary" id="knifeCut">Cut in half</button>
+            <button class="btn" id="knifeReset">Reset to 1 mm</button>
+            <span class="ctrl-label" id="knifeHint">Hold the button down to cut fast</span>
+          </div>
+        </div>
+        <div class="readout">
+          <div><span class="k">Cuts made</span><span class="v" id="knifeN">0</span></div>
+          <div><span class="k">Length remaining</span><span class="v hot" id="knifeLen">1.00 <small>mm</small></span></div>
+          <div><span class="k">About the size of</span><span class="v" id="knifeCmp" style="font-size:13px">a coarse grain of sand</span></div>
+        </div>
+        <p class="verdict" id="knifeVerdict">Start with a wire one millimetre long. Cut it in half and throw one half away. Keep going.</p>
+      </div>
+
+      <div class="notes">
+        <figure class="portrait"><canvas data-portrait="0"></canvas>
+          <figcaption>Fig. 00. Hard, indivisible particles of different shapes moving in a void</figcaption></figure>
+        <div class="card">
+          <h3>Main characteristics</h3>
+          <div class="body"><ul class="spec">
+            <li data-n="a">Matter is built from particles that cannot be divided or destroyed.</li>
+            <li data-n="b">Between the particles is void, containing nothing. Democritus argued motion needs it, since a universe packed solid has nowhere to move into.</li>
+            <li data-n="c">Atoms differ in <b>shape, size and arrangement</b>, and that is the whole of the explanation for why substances differ. Democritus assigned sharp atoms to bitter tastes and smooth ones to sweet.</li>
+            <li data-n="d">Atoms last indefinitely. Objects appear and disappear by rearrangement of atoms, never by creation or destruction of them.</li>
+          </ul></div>
+        </div>
+        <div class="killer">
+          <h4>Why it stalled</h4>
+          <p>No evidence, and no instrument capable of producing any. Aristotle's rival account, matter as a continuous blend of four elements, matched everyday observation more closely and displaced it. Nothing testable replaced Aristotle until Dalton, in 1808.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================== 01 DALTON -->
+<section class="station" id="s1" style="--era: var(--gold)" data-name="The Billiard Ball">
+  <div class="wrap">
+    <div class="st-head">
+      <p class="st-meta"><span class="idx">01</span>
+        <span class="yr">1803 to 1808</span>
+        <span class="who">John Dalton &middot; Manchester</span></p>
+      <h2>The first atom defined by its <em>mass</em>.</h2>
+      <p class="st-lede">Dalton reached atoms from a question about why different gases dissolve in water at different rates. He worked from mass measurements and nothing else. The rule he found: when two elements form more than one compound, the mass of one element per fixed mass of the other lands on small whole-number ratios. Burn carbon two ways and the oxygen figures come out 1.332 g and 2.664 g per gram of carbon.</p>
+    </div>
+
+    <div class="st-body">
+      <div class="lab">
+        <div class="lab-head">
+          <h3>The Balance</h3>
+          <span class="tagline">Instrument 01 &middot; law of multiple proportions</span>
+        </div>
+        <div class="stage ar-wide"><canvas id="balCanvas"></canvas></div>
+        <div class="ctrls">
+          <div class="row">
+            <span class="ctrl-label">Oxygen atoms on one carbon</span>
+            <div class="seg" role="group" aria-label="Number of oxygen atoms">
+              <button data-ox="0" aria-pressed="true">0</button>
+              <button data-ox="1" aria-pressed="false">1</button>
+              <button data-ox="2" aria-pressed="false">2</button>
+            </div>
+            <button class="btn" id="balHalf">Try half an oxygen</button>
+          </div>
+        </div>
+        <div class="readout">
+          <div><span class="k">Compound</span><span class="v hot" id="balName">C</span></div>
+          <div><span class="k">O per 1.000 g C</span><span class="v" id="balMass">0.000 <small>g</small></span></div>
+          <div><span class="k">Ratio between them</span><span class="v" id="balRatio">&ndash;</span></div>
+        </div>
+        <p class="verdict" id="balVerdict">Burn carbon with a little oxygen and you get one compound. Burn it with plenty and you get another. Make both, then compare how much oxygen each one took.</p>
+      </div>
+
+      <div class="notes">
+        <figure class="portrait"><canvas data-portrait="1"></canvas>
+          <figcaption>Fig. 01. A solid sphere: no charge, no parts, no inside</figcaption></figure>
+        <div class="card">
+          <h3>Main characteristics</h3>
+          <div class="body"><ul class="spec">
+            <li data-n="1">Every element is built from indivisible particles called atoms.</li>
+            <li data-n="2">All atoms of one element share the same mass and properties. Atoms of different elements differ, and mass is the property that separates them.</li>
+            <li data-n="3">Compounds form when atoms combine in fixed, simple whole-number ratios.</li>
+            <li data-n="4">A chemical reaction rearranges atoms. It does not create them, destroy them, or turn one element into another.</li>
+            <li data-n="&middot;">The picture that goes with it is a hard sphere with no surface features and no interior, usually called the <b>billiard-ball model</b>. Dalton presented the theory to the Manchester Literary and Philosophical Society in 1803 and published it in <em>A New System of Chemical Philosophy</em> in 1808.</li>
+          </ul></div>
+        </div>
+        <div class="killer">
+          <h4>What broke it</h4>
+          <p>Postulate 1 failed in 1897, when Thomson pulled a particle out of the atom. Postulate 2 failed in 1913, when Soddy showed that atoms of one element can carry different masses. He named them isotopes and received the 1921 Nobel Prize in Chemistry for the work.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================== 02 THOMSON -->
+<section class="station" id="s2" style="--era: var(--hbeta)" data-name="The Plum Pudding">
+  <div class="wrap">
+    <div class="st-head">
+      <p class="st-meta"><span class="idx">02</span>
+        <span class="yr">1897 to 1904</span>
+        <span class="who">J. J. Thomson &middot; Cavendish Laboratory, Cambridge</span></p>
+      <h2>Thomson pulled a <em>particle</em> out of the atom.</h2>
+      <p class="st-lede">Hertz had tried this in 1883 and got nothing: charged plates would not bend a cathode ray at all, so he concluded the rays carry no charge. Thomson reproduced the failure, worked out that the leftover gas in the tube was the problem, pumped harder, and the deflection appeared. From the amount of bending he calculated the ratio of the particle's charge to its mass. In his Nobel lecture he put that ratio at 1.7 &times; 10&#8311; in c.g.s. magnetic units, which converts to 1.7 &times; 10&#185;&#185; C/kg.</p>
+    </div>
+
+    <div class="st-body">
+      <div class="lab">
+        <div class="lab-head">
+          <h3>The Discharge Tube</h3>
+          <span class="tagline">Instrument 02 &middot; cathode rays</span>
+        </div>
+        <div class="stage ar-wide"><canvas id="crtCanvas"></canvas></div>
+        <div class="ctrls">
+          <div class="row">
+            <span class="ctrl-label" style="min-width:104px">Plate voltage</span>
+            <input type="range" id="crtVolts" min="-300" max="300" step="5" value="0" style="flex:1 1 150px" aria-label="Deflecting plate voltage in volts">
+            <span id="crtVLabel" style="font-family:var(--f-mono);font-size:12px;color:var(--ink);min-width:58px;text-align:right">0 V</span>
+          </div>
+          <div class="row">
+            <span class="ctrl-label" style="min-width:104px">Vacuum pump</span>
+            <div class="seg" role="group" aria-label="Vacuum pump setting">
+              <button data-pump="low" aria-pressed="false">Low</button>
+              <button data-pump="medium" aria-pressed="false">Medium</button>
+              <button data-pump="high" aria-pressed="true">High</button>
+            </div>
+          </div>
+          <div class="row">
+            <span class="ctrl-label">Gas in the tube</span>
+            <div class="seg" role="group" aria-label="Gas in the tube">
+              <button data-gas="air" aria-pressed="true">Air</button>
+              <button data-gas="hydrogen" aria-pressed="false">Hydrogen</button>
+              <button data-gas="co2" aria-pressed="false">Carbonic acid</button>
+            </div>
+            <button class="btn" id="crtMagnet" aria-pressed="false">Magnet off</button>
+          </div>
+        </div>
+        <div class="readout">
+          <div><span class="k">Beam deflection</span><span class="v" id="crtDefl">0.0 <small>mm</small></span></div>
+          <div><span class="k">Bends toward</span><span class="v" id="crtToward" style="font-size:13px">&ndash;</span></div>
+          <div><span class="k">Field at the plates</span><span class="v" id="crtField">100<small>%</small></span></div>
+          <div><span class="k">e&#8239;/&#8239;m in C/kg</span><span class="v hot" id="crtEM">&ndash;</span></div>
+        </div>
+        <p class="verdict" id="crtVerdict">If cathode rays are made of the gas in the tube, swapping the gas has to change how far the beam bends. That is the prediction. Turn the voltage up, then test all three gases and read the log on the screen.</p>
+      </div>
+
+      <div class="notes">
+        <figure class="portrait"><canvas data-portrait="2"></canvas>
+          <figcaption>Fig. 02. Electrons embedded in a sphere of diffuse positive charge</figcaption></figure>
+        <div class="card">
+          <h3>Main characteristics</h3>
+          <div class="body"><ul class="spec">
+            <li data-n="1">The atom contains negatively charged particles. Thomson called them <em>corpuscles</em>; the name electron won out.</li>
+            <li data-n="2">Their charge-to-mass ratio is <var>1.76 &times; 10&#185;&#185; C/kg</var>. Thomson noted it was <b>1,700 times</b> the value for a hydrogen ion in electrolysis, which put the particle far below the lightest atom in mass. The modern figure is 1,836.</li>
+            <li data-n="3">The ratio came out the same for <b>air, hydrogen and carbonic acid</b>, and for every cathode metal he tried. Thomson concluded the particle is a constituent of all matter rather than a property of one substance. This is the measurement that matters, and the answer it gives is that nothing changes.</li>
+            <li data-n="4">The deflection only appears in a well-pumped tube. Thomson's own explanation: &ldquo;the absence of deflexion is due to the <b>conductivity conferred on the rarefied gas by the cathode rays</b>.&rdquo; The rays ionise the residual gas, the gas conducts, and ions reaching the plates cancel the field. At partial vacuum the spot jumps when the battery is connected and then &ldquo;gradually creeps back to its undeflected position&rdquo;. That is what Hertz saw.</li>
+            <li data-n="5">The 1904 model: electrons sit inside a sphere of spread-out positive charge, arranged in rings, giving a neutral atom overall.</li>
+            <li data-n="&middot;">Thomson never wrote <b>&ldquo;plum pudding&rdquo;</b>. An unnamed reporter in <em>The Chemist and Druggist</em> made the raisin comparison in August 1906. Thomson described the positive charge as closer to a fluid than a solid.</li>
+          </ul></div>
+        </div>
+        <div class="killer">
+          <h4>What broke it</h4>
+          <p>Positive charge spread across the whole atom produces a weak field everywhere and a strong field nowhere, so it can push a fast alpha particle through a fraction of a degree at most. Geiger and Marsden measured alphas coming back past 90 degrees. The model also accounts for no emission spectrum and no chemical valency.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================== 03 RUTHERFORD -->
+<section class="station" id="s3" style="--era: var(--halpha)" data-name="The Nuclear Atom">
+  <div class="wrap">
+    <div class="st-head">
+      <p class="st-meta"><span class="idx">03</span>
+        <span class="yr">1909 to 1911</span>
+        <span class="who">Rutherford, with Hans Geiger &amp; Ernest Marsden &middot; Manchester</span></p>
+      <h2>One alpha in <em>8,000</em> comes back.</h2>
+      <p class="st-lede">Geiger and Marsden sat in a blacked-out room for half an hour to let their eyes adjust, then counted flashes on a zinc sulfide screen one at a time, by eye, for months. Rutherford had asked them to check the backward direction as a formality. Thomson's atom predicts nothing arriving there.</p>
+    </div>
+
+    <div class="st-body">
+      <div class="lab">
+        <div class="lab-head">
+          <h3>The Scattering Chamber</h3>
+          <span class="tagline">Instrument 03 &middot; alpha particles on gold leaf</span>
+        </div>
+        <div class="stage ar-square"><canvas id="goldCanvas"></canvas>
+          <p class="stage-note" id="goldNote">True rate: about 1 in 8,000 comes back past 90&deg;</p>
+        </div>
+        <div class="ctrls">
+          <div class="row">
+            <span class="ctrl-label">Atom used in the foil</span>
+            <div class="seg" role="group" aria-label="Which atomic model the foil is made of">
+              <button data-atom="thomson" aria-pressed="true">Thomson&rsquo;s</button>
+              <button data-atom="rutherford" aria-pressed="false">Rutherford&rsquo;s</button>
+            </div>
+          </div>
+          <div class="row">
+            <button class="btn primary" id="goldAuto" aria-pressed="true">Stop the source</button>
+            <button class="btn" id="goldClear">Clear counters</button>
+          </div>
+        </div>
+        <div class="readout">
+          <div><span class="k">Alphas fired</span><span class="v" id="goldFired">0</span></div>
+          <div><span class="k">Passed &lt; 1&deg;</span><span class="v" id="goldThrough">0</span></div>
+          <div><span class="k">Deflected &gt; 90&deg;</span><span class="v hot" id="goldBack">0</span></div>
+          <div><span class="k">Widest angle</span><span class="v" id="goldMax">0&deg;</span></div>
+        </div>
+        <p class="verdict" id="goldVerdict">The radium source is running and Thomson&rsquo;s atom is in the foil. Watch the detector ring and the counters, then switch the foil to Rutherford&rsquo;s atom.</p>
+      </div>
+
+      <div class="notes">
+        <figure class="portrait"><canvas data-portrait="3"></canvas>
+          <figcaption>Fig. 03. A small dense nucleus; electrons somewhere in the emptiness</figcaption></figure>
+        <blockquote>
+          <p>&ldquo;It was almost as incredible as if you fired a 15-inch shell at a piece of tissue paper and it came back and hit you.&rdquo;</p>
+          <cite>Ernest Rutherford, recalling the result</cite>
+        </blockquote>
+        <div class="card">
+          <h3>Main characteristics</h3>
+          <div class="body"><ul class="spec">
+            <li data-n="1">Nearly all the mass and all the positive charge sit in a central <b>nucleus</b>.</li>
+            <li data-n="2">Electrons occupy the volume around it. At one ten-thousandth of the diameter, the nucleus fills about <b>one part in 10&#185;&sup2;</b> of the atom by volume; the rest is empty.</li>
+            <li data-n="3">Scale: an atom measures about <var>10&#8315;&#185;&#8304; m</var> across, the nucleus about <var>10&#8315;&#185;&#8308;</var> to <var>10&#8315;&#185;&#8309; m</var>, roughly <b>1/10,000</b> of the diameter. Blow the atom up to 1 m and the nucleus is a grain of salt at the centre.</li>
+            <li data-n="4">Results: most alphas passed straight through, <b>about 1 in 8,000</b> deflected through a large angle, and a few returned along close to their incoming path.</li>
+            <li data-n="&middot;">Rutherford identified the positive nuclear particle in later work and named it the <b>proton</b> in 1920.</li>
+          </ul></div>
+        </div>
+        <div class="killer">
+          <h4>What broke it</h4>
+          <p>A charge moving in a circle is accelerating, and classical electrodynamics says an accelerating charge radiates. A Rutherford electron should lose energy continuously and reach the nucleus in about <b>10&#8315;&#185;&#185; seconds</b>, emitting a continuous spread of wavelengths on the way down. Atoms last longer than that, and hydrogen emits four sharp lines in the visible range rather than a continuous spread.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================== 04 BOHR -->
+<section class="station" id="s4" style="--era: var(--hgamma)" data-name="The Bohr Atom">
+  <div class="wrap">
+    <div class="st-head">
+      <p class="st-meta"><span class="idx">04</span>
+        <span class="yr">1913</span>
+        <span class="who">Niels Bohr &middot; Copenhagen</span></p>
+      <h2>Hydrogen emits <em>four lines</em> in the visible range.</h2>
+      <p class="st-lede">Pass the light from hot hydrogen through a prism and four sharp lines appear on black, at 656, 486, 434 and 410 nm, in those same positions every time. Bohr stopped asking what the electron does between measurements and instead forbade it any energy outside a fixed list of values. The list reproduces all four wavelengths.</p>
+    </div>
+
+    <div class="st-body">
+      <div class="lab">
+        <div class="lab-head">
+          <h3>The Spectroscope</h3>
+          <span class="tagline">Instrument 04 &middot; collect all four Balmer lines</span>
+        </div>
+        <div class="stage ar-square"><canvas id="bohrCanvas"></canvas></div>
+        <div class="ctrls">
+          <div class="row between">
+            <span class="ctrl-label">Energy level &nbsp;<span id="bohrNLabel" style="text-transform:none;font-family:var(--f-mono);font-size:13px;color:var(--era,var(--gold));letter-spacing:.02em">n = 1</span></span>
+            <button class="btn" id="bohrClear">Clear plate</button>
+          </div>
+          <input type="range" id="bohrN" min="1" max="6" step="1" value="1" style="width:100%" aria-label="Electron energy level n. Raise it to absorb a photon, lower it to emit one.">
+          <div class="ticks6" id="bohrTicks" aria-hidden="true">
+            <span data-on="1">1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span>
+          </div>
+        </div>
+        <div class="readout">
+          <div><span class="k">Transition</span><span class="v" id="bohrTrans">&ndash;</span></div>
+          <div><span class="k">Released &Delta;E</span><span class="v" id="bohrDE">&ndash;</span></div>
+          <div><span class="k">Wavelength &lambda;</span><span class="v hot" id="bohrLam">&ndash;</span></div>
+          <div><span class="k">Balmer lines</span><span class="v" id="bohrFound">0/4</span></div>
+        </div>
+        <p class="verdict" id="bohrVerdict">The electron starts in the ground state, n&nbsp;=&nbsp;1. Raise the slider and it absorbs a photon; lower it and it emits one, which flies to the plate. Four of the possible drops give visible light. Find all four.</p>
+      </div>
+
+      <div class="notes">
+        <figure class="portrait"><canvas data-portrait="4"></canvas>
+          <figcaption>Fig. 04. Fixed circular orbits; jumps between them emit single photons</figcaption></figure>
+        <div class="card">
+          <h3>Main characteristics</h3>
+          <div class="body"><ul class="spec">
+            <li data-n="1">Electrons occupy only certain allowed orbits, the <b>stationary states</b>, and radiate nothing while they stay in one. Bohr supplied no reason for this; he asserted it because it stops the spiral.</li>
+            <li data-n="2">Angular momentum is <b>quantised</b>: <var>mvr = nh&#8239;/&#8239;2&pi;</var>, with <var>n</var> = 1, 2, 3&hellip;</li>
+            <li data-n="3">Each level has a fixed energy. For hydrogen, <var>E&#8345; = &minus;13.6&#8239;/&#8239;n&sup2; eV</var>.</li>
+            <li data-n="4">An electron changes level by absorbing or emitting one photon whose energy matches the gap: <var>&Delta;E = hf</var>. Fixed gaps give fixed wavelengths, which is what a line spectrum is.</li>
+            <li data-n="&middot;">The model reproduces hydrogen's visible <b>Balmer series</b>: 656 nm (3&rarr;2), 486 nm (4&rarr;2), 434 nm (5&rarr;2), 410 nm (6&rarr;2). It also yields the Rydberg constant, 1.09737 &times; 10&#8311; m&#8315;&#185;, from h, c, m and e alone.</li>
+            <li data-n="&middot;">The instrument here computes straight from <var>E&#8345; = &minus;13.606/n&sup2;</var> and reads <b>656.11 nm</b>, while a spectrometer reads <b>656.28 nm</b>. Two corrections close that gap. Allowing for the nucleus having finite mass rather than being infinitely heavy moves it to 656.47 nm, and light travelling slightly slower in air than in vacuum brings it to 656.29 nm. Bohr's bare formula is right to <b>0.03%</b>.</li>
+          </ul></div>
+        </div>
+        <div class="killer">
+          <h4>What broke it</h4>
+          <p>The model handles one electron and no more: H, He&#8314;, Li&sup2;&#8314;. Neutral helium has two electrons and Bohr's equations give the wrong spectrum for it. The model also produces no line intensities, no fine structure and no account of chemical bonding, and it supplies no reason why the orbits are quantised.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================== 05 SOMMERFELD -->
+<section class="station" id="s5" style="--era: var(--hdelta)" data-name="The Bohr–Sommerfeld Atom">
+  <div class="wrap">
+    <div class="st-head">
+      <p class="st-meta"><span class="idx">05</span>
+        <span class="yr">1916</span>
+        <span class="who">Arnold Sommerfeld &middot; Munich</span></p>
+      <h2>Bohr's single line is a <em>doublet</em>.</h2>
+      <p class="st-lede">Higher-resolution spectroscopes showed each of Bohr's sharp lines to be a tight cluster. The n=2 levels of hydrogen are separated by about 10.9 GHz, which at 656.28 nm works out to 0.016 nm between components. Sommerfeld's fix: allow elliptical orbits alongside circular ones, and apply special relativity, since an electron swinging close to the nucleus moves fast enough for the correction to register.</p>
+    </div>
+
+    <div class="st-body">
+      <div class="lab">
+        <div class="lab-head">
+          <h3>The Fine-Structure Magnifier</h3>
+          <span class="tagline">Instrument 05 &middot; orbit shape and line splitting</span>
+        </div>
+        <div class="stage ar-square"><canvas id="sommCanvas"></canvas></div>
+        <div class="ctrls">
+          <div class="row">
+            <span class="ctrl-label" style="min-width:150px">Orbit shape &nbsp;<span style="text-transform:none;color:var(--ink)" id="sommKLab">k = 3</span></span>
+            <input type="range" id="sommK" min="1" max="3" step="1" value="3" style="flex:1 1 140px" aria-label="Azimuthal quantum number k">
+          </div>
+          <div class="row">
+            <span class="ctrl-label" style="min-width:150px">Spectroscope resolution &nbsp;<span style="text-transform:none;color:var(--ink)" id="sommZLab">0.050 nm</span></span>
+            <input type="range" id="sommZoom" min="0" max="100" step="1" value="0" style="flex:1 1 140px" aria-label="Spectroscope resolution: the narrowest line width the instrument can separate">
+          </div>
+        </div>
+        <div class="readout">
+          <div><span class="k">Relativistic shift</span><span class="v" id="sommShift">&minus;2.24 <small>&micro;eV</small></span></div>
+          <div><span class="k">Eccentricity</span><span class="v" id="sommEcc">0.00 <small>(circle)</small></span></div>
+          <div><span class="k">Line at 656.28 nm</span><span class="v hot" id="sommSplit">1 line</span></div>
+        </div>
+        <p class="verdict" id="sommVerdict">Bohr allowed only the circle. Pull the shape slider down to give the same energy level an elliptical orbit, then raise the resolving power on the red hydrogen line.</p>
+      </div>
+
+      <div class="notes">
+        <figure class="portrait"><canvas data-portrait="5"></canvas>
+          <figcaption>Fig. 05. Elliptical orbits of several shapes and orientations per level</figcaption></figure>
+        <div class="card">
+          <h3>Main characteristics</h3>
+          <div class="body"><ul class="spec">
+            <li data-n="1">Orbits may be elliptical as well as circular, and may be tilted in space.</li>
+            <li data-n="2">A second quantum number fixes the shape: the <b>azimuthal</b> one, <var>k</var>, written <var>l</var> today. Setting <var>k = n</var> returns Bohr's circle and smaller <var>k</var> narrows the ellipse. The semi-axes are <var>a = n&sup2;a&#8320;</var> and <var>b = nk&#8239;a&#8320;</var>.</li>
+            <li data-n="3">A third, <b>magnetic</b> quantum number fixes the orbit's orientation in space, which is what the splitting of lines in a magnetic field, the Zeeman effect, requires.</li>
+            <li data-n="4">Under <b>special relativity</b>, an electron on an ellipse speeds up near the nucleus and its energy shifts: <var>E(n,k) = &minus;(Rhc/n&sup2;)[1 + (&alpha;&sup2;/n&sup2;)(n/k &minus; 3/4)]</var>. Orbits sharing <var>n</var> but differing in <var>k</var> therefore sit at different energies. For n = 3 they fall <b>2.24, 6.71 and 20.1 &micro;eV</b> below the plain Bohr value, so the k=3 to k=2 gap is a third of the k=2 to k=1 gap. That is the observed <b>fine structure</b>.</li>
+          </ul></div>
+        </div>
+        <div class="killer">
+          <h4>What broke it</h4>
+          <p>The model is classical orbits with quantum rules added by hand, and it still gives the wrong spectra for atoms with more than one electron. Heisenberg's 1927 uncertainty principle then removed its foundation: an electron whose position and momentum cannot both be fixed has no trajectory, so there is no ellipse for the model to describe.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================== 06 QUANTUM -->
+<section class="station" id="s6" style="--era: var(--hbeta)" data-name="The Quantum Model">
+  <div class="wrap">
+    <div class="st-head">
+      <p class="st-meta"><span class="idx">06</span>
+        <span class="yr">1924 to 1927</span>
+        <span class="who">de Broglie &middot; Heisenberg &middot; Schr&ouml;dinger &middot; Born</span></p>
+      <h2>Orbits are replaced by <em>probability maps</em>.</h2>
+      <p class="st-lede">De Broglie gave the electron a wavelength in 1924. Heisenberg showed in 1927 that its position and momentum cannot both be fixed, which leaves an orbit with nothing to refer to. Schr&ouml;dinger wrote the wave equation in 1926 and Born, the same year, identified what the wave measures: the probability of finding the electron at a point.</p>
+    </div>
+
+    <div class="st-body">
+      <div class="lab">
+        <div class="lab-head">
+          <h3>The Detector</h3>
+          <span class="tagline">Instrument 06 &middot; one measurement is one dot</span>
+        </div>
+        <div class="stage ar-square"><canvas id="qCanvas"></canvas>
+          <p class="stage-note">Slice through the atom, x&ndash;z plane &middot; sampled from |&psi;|&sup2;</p>
+        </div>
+        <div class="ctrls">
+          <div class="row">
+            <span class="ctrl-label">Orbital</span>
+            <div class="seg" role="group" aria-label="Choose orbital">
+              <button data-orb="1s" aria-pressed="true">1s</button>
+              <button data-orb="2s" aria-pressed="false">2s</button>
+              <button data-orb="2p" aria-pressed="false">2p</button>
+              <button data-orb="3d" aria-pressed="false">3d</button>
+            </div>
+          </div>
+          <div class="row">
+            <button class="btn primary" id="qMany" aria-pressed="true">Stop the detector</button>
+            <button class="btn" id="qClear">Clear plate</button>
+          </div>
+        </div>
+        <div class="readout">
+          <div><span class="k">Measurements</span><span class="v hot" id="qCount">0</span></div>
+          <div><span class="k">Last position</span><span class="v" id="qLast">&ndash;</span></div>
+        </div>
+        <p class="verdict" id="qVerdict">Each measurement finds the electron in exactly one place, and the place is different every time. One dot tells you nothing. The pattern that builds over hundreds of measurements is the result.</p>
+      </div>
+
+      <div class="notes">
+        <figure class="portrait"><canvas data-portrait="6"></canvas>
+          <figcaption>Fig. 06. The 2p orbital: a probability cloud, denser where the electron is likelier</figcaption></figure>
+        <div class="card">
+          <h3>Main characteristics</h3>
+          <div class="body"><ul class="spec">
+            <li data-n="1"><b>de Broglie, 1924.</b> Matter carries wave properties, <var>&lambda; = h&#8239;/&#8239;p</var>. An allowed orbit is one whose circumference fits a whole number of electron wavelengths, which is where Bohr's quantisation rule comes from.</li>
+            <li data-n="2"><b>Heisenberg, 1927.</b> The uncertainty principle: position and momentum cannot both be known exactly. Nothing in the theory answers the question an orbit would answer.</li>
+            <li data-n="3"><b>Schr&ouml;dinger, 1926.</b> A wave equation whose solutions <var>&psi;</var> describe the electron as a standing wave around the nucleus. The allowed energies drop out of the boundary conditions instead of being assumed.</li>
+            <li data-n="4"><b>Born, 1926.</b> <var>|&psi;|&sup2;</var> is a probability density. Orbits become <b>orbitals</b>, regions of space conventionally drawn to enclose about 90% of the probability.</li>
+            <li data-n="5">Four quantum numbers describe any electron: <var>n</var> for level and size, <var>l</var> for shape (s, p, d, f), <var>m&#8343;</var> for orientation, <var>m&#8347;</var> for spin, which Uhlenbeck and Goudsmit proposed in 1925. Pauli's exclusion principle, also 1925: no two electrons in one atom share all four.</li>
+          </ul></div>
+        </div>
+        <div class="killer" style="border-left-color: var(--hbeta); background: linear-gradient(90deg, rgba(47,227,198,.06), transparent 60%)">
+          <h4 style="color:var(--hbeta)">Still standing</h4>
+          <p>A century on, no measurement has contradicted it. It gives the spectra of atoms with many electrons, the s, p, d and f block structure of the periodic table, and the geometry of chemical bonds. This is the model in your textbook.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<!-- ===================================================== CODA -->
+<section class="coda">
+  <div class="wrap">
+    <p class="eyebrow">Afterward &middot; what happened to the nucleus</p>
+    <h2>Then they cut the uncuttable.</h2>
+    <div class="coda-grid">
+      <article>
+        <span class="yr">1932 &middot; James Chadwick</span>
+        <h3>The neutron</h3>
+        <p>A neutral particle in the nucleus carrying roughly a proton's mass. It accounts for an atom weighing about twice what its charge alone suggests, and for isotopes: same element, same proton count, different neutron count. That finishes off Dalton's second postulate. Chadwick took the 1935 Nobel Prize in Physics for it.</p>
+      </article>
+      <article>
+        <span class="yr">1964 &middot; Gell-Mann &amp; Zweig</span>
+        <h3>Quarks</h3>
+        <p>Protons and neutrons are not fundamental either. Each is three quarks held by the strong force. The Greek word turned out to be wrong twice over: first when Thomson split off the electron, again when the nucleons came apart. No experiment so far has found structure inside a quark.</p>
+      </article>
+      <article>
+        <span class="yr">1803 to 1926</span>
+        <h3>How the models were replaced</h3>
+        <p>Every replacement above followed a measurement, not a debate. A whole-number mass ratio ended Democritus. A constant <var>e/m</var> across four gases ended Dalton. An alpha returning past 90 degrees ended Thomson. Four fixed wavelengths ended Rutherford. Each time, the number came first and the picture was rebuilt around it.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================== LEDGER -->
+<section class="ledger">
+  <div class="wrap">
+    <p class="eyebrow">Summary &middot; all seven models in one table</p>
+    <h2>The ledger</h2>
+    <div class="tablewrap">
+      <table>
+        <thead><tr>
+          <th>Year</th><th>Model</th><th>Core idea</th><th>Evidence behind it</th><th>Fatal flaw</th>
+        </tr></thead>
+        <tbody>
+          <tr style="border-left-color:var(--ink-2)">
+            <td class="yr">c. 400 BCE</td>
+            <td class="model">Democritus<i>The uncuttable</i></td>
+            <td>Matter is indivisible particles moving in a void; their shapes explain a substance's properties.</td>
+            <td>None. A philosophical argument about infinite division.</td>
+            <td>Untestable. Aristotle's continuous four-element matter displaced it for about 2,200 years.</td>
+          </tr>
+          <tr style="border-left-color:var(--gold)">
+            <td class="yr">1803</td>
+            <td class="model">Dalton<i>Billiard ball</i></td>
+            <td>Solid indivisible spheres; one mass per element; compounds in fixed whole-number ratios.</td>
+            <td>Conservation of mass, definite proportions, and Dalton's own law of multiple proportions.</td>
+            <td>Atoms have parts (Thomson, 1897), and one element can have several masses (Soddy, 1913).</td>
+          </tr>
+          <tr style="border-left-color:var(--hbeta)">
+            <td class="yr">1904</td>
+            <td class="model">Thomson<i>&ldquo;Plum pudding&rdquo;</i></td>
+            <td>Electrons embedded in a sphere of diffuse positive charge; neutral overall.</td>
+            <td>Cathode rays bend toward the positive plate. <var>e/m</var> = 1.76 &times; 10&#185;&#185; C/kg for every gas and every cathode metal.</td>
+            <td>Diffuse charge produces a field too weak to turn an alpha particle around. Alphas turned around.</td>
+          </tr>
+          <tr style="border-left-color:var(--halpha)">
+            <td class="yr">1911</td>
+            <td class="model">Rutherford<i>Nuclear</i></td>
+            <td>A tiny dense positive nucleus holds nearly all the mass; electrons sit in mostly empty space.</td>
+            <td>Geiger and Marsden, gold foil: about 1 in 8,000 alphas deflected through large angles, a few returning near their incoming path.</td>
+            <td>An orbiting electron radiates and should reach the nucleus within 10&#8315;&#185;&#185; s, giving a continuous spectrum.</td>
+          </tr>
+          <tr style="border-left-color:var(--hgamma)">
+            <td class="yr">1913</td>
+            <td class="model">Bohr<i>Quantised orbits</i></td>
+            <td>Only fixed energy levels are allowed. <var>E&#8345; = &minus;13.6/n&sup2;</var> eV, and jumps emit single photons, <var>&Delta;E = hf</var>.</td>
+            <td>Hydrogen's line spectrum, predicted exactly: 656, 486, 434 and 410 nm.</td>
+            <td>Works only for one-electron systems; cannot give line intensities, fine structure, or bonding.</td>
+          </tr>
+          <tr style="border-left-color:var(--hdelta)">
+            <td class="yr">1916</td>
+            <td class="model">Sommerfeld<i>Elliptical orbits</i></td>
+            <td>Adds elliptical, tilted orbits plus relativity; new azimuthal and magnetic quantum numbers.</td>
+            <td>Fine structure: single lines resolving into close multiplets, 0.016 nm apart at 656 nm.</td>
+            <td>Classical orbits with rules added by hand. Uncertainty (1927) removes the trajectory altogether.</td>
+          </tr>
+          <tr style="border-left-color:var(--hbeta)">
+            <td class="yr">1926</td>
+            <td class="model">Schr&ouml;dinger<i>Quantum / orbital</i></td>
+            <td>The electron is a standing wave. <var>|&psi;|&sup2;</var> gives the probability of finding it at a point. Orbitals, four quantum numbers.</td>
+            <td>Correct spectra for multi-electron atoms, the periodic table, and chemical bonding.</td>
+            <td>None so far. Still the accepted model.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ===================================================== SOURCES -->
+<section class="sources">
+  <div class="wrap">
+    <p class="eyebrow">References</p>
+    <h2>Sources for every figure above</h2>
+    <ol>
+      <li>Britannica, &ldquo;Atomic model: Definition, History, Development&rdquo;. <a href="https://www.britannica.com/science/atomic-model">britannica.com/science/atomic-model</a></li>
+      <li>Wikipedia, &ldquo;Plum pudding model&rdquo;. Dates for the 1897 electron and the 1904 model, plus the 1906 origin of the &ldquo;plum pudding&rdquo; nickname in <em>The Chemist and Druggist</em>. <a href="https://en.wikipedia.org/wiki/Plum_pudding_model">en.wikipedia.org/wiki/Plum_pudding_model</a></li>
+      <li>Chemistry LibreTexts (CK-12), &sect;4.14 &ldquo;Gold Foil Experiment&rdquo;. The 1 in 8,000 large-angle figure and Rutherford's conclusions. <a href="https://chem.libretexts.org/Bookshelves/Introductory_Chemistry/Introductory_Chemistry_(CK-12)/04%3A_Atomic_Structure/4.14%3A_Gold_Foil_Experiment">chem.libretexts.org</a></li>
+      <li>Chemistry LibreTexts (Brown et al.), &sect;6.3 &ldquo;Line Spectra and the Bohr Model&rdquo;. Bohr's postulates, the Rydberg constant 1.09737 &times; 10&#8311; m&#8315;&#185;, the four visible Balmer wavelengths, and the model's limitations. <a href="https://chem.libretexts.org/Bookshelves/General_Chemistry/Map%3A_Chemistry_-_The_Central_Science_(Brown_et_al.)/06%3A_Electronic_Structure_of_Atoms/6.03%3A_Line_Spectra_and_the_Bohr_Model">chem.libretexts.org</a></li>
+      <li>Wikipedia, &ldquo;Hydrogen-alpha&rdquo;. Source of the air wavelength 656.28 nm against the vacuum value 656.46 nm, which is where the 0.17 nm difference from this page's calculated figure comes from. <a href="https://en.wikipedia.org/wiki/Hydrogen-alpha">en.wikipedia.org/wiki/Hydrogen-alpha</a></li>
+      <li>Visionlearning, &ldquo;Atomic Theory III: Wave-particle duality and the electron&rdquo;. de Broglie 1924, Schr&ouml;dinger 1926, Heisenberg 1927, and Born's probability interpretation. <a href="https://www.visionlearning.com/en/library/Chemistry/1/Atomic-Theory-III/223">visionlearning.com</a></li>
+      <li>J. J. Thomson, Nobel lecture (1906), transcribed by Le Moyne College. Source of <var>e/m</var> = 1.7 &times; 10&#8311; c.g.s. magnetic units and of Thomson's own statement that this is 1,700 times the value for the hydrogen ion in electrolysis. <a href="https://web.lemoyne.edu/giunta/ea/THOMSONann.HTML">web.lemoyne.edu</a></li>
+      <li>J. J. Thomson, &ldquo;Cathode Rays&rdquo;, <em>Philosophical Magazine</em> 44 (1897), transcribed by Le Moyne College. Source of the Hertz failure and its cause, the quoted passages on the conductivity of the rarefied gas and the spot creeping back, and the statement that <var>m/e</var> is independent of the gas across air, hydrogen and carbonic acid. <a href="https://web.lemoyne.edu/~giunta/THOMSON1897.HTML">web.lemoyne.edu</a></li>
+      <li>HyperPhysics, &ldquo;Hydrogen Fine Structure&rdquo;, and UC Berkeley Physics 221 lecture notes. Source of the closely spaced doublet and the 10.9 GHz splitting of the n=2 levels, from which the 0.016 nm figure on this page is calculated. <a href="http://hyperphysics.phy-astr.gsu.edu/hbase/quantum/hydfin.html">hyperphysics.phy-astr.gsu.edu</a> &middot; <a href="https://bohr.physics.berkeley.edu/classes/221/1112/notes/finestruc.pdf">bohr.physics.berkeley.edu</a></li>
+      <li>Geiger, H. and Marsden, E., &ldquo;On a Diffuse Reflection of the &alpha;-Particles&rdquo;, <em>Proc. Roy. Soc.</em> A82 (1909), transcribed at <a href="https://www.chemteam.info/Chem-History/GM-1909.html">chemteam.info</a></li>
+      <li>Bohr&ndash;Sommerfeld fine-structure energy, <var>&minus;1/2n&sup2; &minus; &alpha;&sup2;/2n&sup3;k + 3&alpha;&sup2;/8n&#8308;</var> in atomic units, from the review in <a href="https://arxiv.org/html/1902.09612">arXiv:1902.09612</a>, which also confirms that smaller <var>k</var> gives the lower energy. The &micro;eV figures on this page are computed from it.</li>
+      <li>Wikipedia, &ldquo;Bohr&ndash;Sommerfeld model&rdquo;. Elliptical orbits, the semi-axes <var>a = n&sup2;a&#8320;</var> and <var>b = nk a&#8320;</var>, and relativistic fine structure. <a href="https://en.wikipedia.org/wiki/Bohr%E2%80%93Sommerfeld_model">en.wikipedia.org/wiki/Bohr-Sommerfeld model</a></li>
+    </ol>
+    <p style="font-size:var(--step--1);color:var(--ink-3);max-width:62ch">
+      Researched and built with Claude (Anthropic). Every figure below was generated from the
+      equations cited above, and every number was checked against the sources listed.
+    </p>
+    <p style="font-size:var(--step--1);color:var(--ink-3);max-width:62ch">
+      No figure here is traced from an image. The spectral colours come from <var>&lambda; = 1239.84 / &Delta;E</var> with <var>E&#8345; = &minus;13.6/n&sup2;</var> eV. The scattering angles come from the Rutherford relation <var>b = (d/2)&#8239;cot(&theta;/2)</var>, calibrated so that 1 alpha in 8,000 exceeds 90 degrees. The electron clouds come from rejection sampling of the hydrogen wavefunctions for 1s, 2s, 2p and 3d. Constants used: <var>a&#8320;</var> = 0.0529 nm, <var>hc</var> = 1239.84 eV&#8239;nm, Rydberg energy 13.606 eV.
+    </p>
+  </div>
+</section>
+
+<footer class="foot">
+  <div class="wrap">
+    <span>Break the Atom &middot; c. 400 BCE to 1926, in seven instruments</span>
+    <span>Alan</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+
+/* ============================== shared utilities ============================== */
+const C = {
+  bg:'#07060D', ink:'#EDE9F8', ink2:'#A9A1C6', ink3:'#6F6790',
+  line:'#2B2442', line2:'#3B3358',
+  ha:'#FF3B4E', hb:'#2FE3C6', hg:'#5B78FF', hd:'#A05CFF',
+  gold:'#D9A441', gold2:'#F0C878'
+};
+const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const TAU = Math.PI*2;
+const $  = (s,r)=> (r||document).querySelector(s);
+const $$ = (s,r)=> Array.from((r||document).querySelectorAll(s));
+const clamp = (v,a,b)=> v<a?a:v>b?b:v;
+
+function fit(cv){
+  const dpr = Math.min(window.devicePixelRatio||1, 2);
+  const r = cv.getBoundingClientRect();
+  const w = Math.max(1, Math.round(r.width)), h = Math.max(1, Math.round(r.height));
+  if(cv._w===w && cv._h===h && cv._dpr===dpr) return false;
+  cv._w=w; cv._h=h; cv._dpr=dpr;
+  cv.width = Math.round(w*dpr); cv.height = Math.round(h*dpr);
+  cv.getContext('2d').setTransform(dpr,0,0,dpr,0,0);
+  return true;
+}
+
+/* one animation loop; each item pauses when its element is offscreen */
+const loopItems = [];
+const io = new IntersectionObserver(es=>{
+  es.forEach(e=>{ const it = loopItems.find(i=>i.el===e.target); if(it) it.vis = e.isIntersecting; });
+},{rootMargin:'160px'});
+function animate(el, fn){
+  const it = {el, fn, vis:false};
+  loopItems.push(it); io.observe(el);
+  return it;
+}
+let t0 = performance.now();
+(function frame(now){
+  const dt = Math.min(0.05, (now-t0)/1000); t0 = now;
+  for(const it of loopItems){ if(it.vis) { try{ it.fn(dt, now/1000); }catch(e){} } }
+  requestAnimationFrame(frame);
+})(performance.now());
+
+/* CIE-ish visible spectrum: nanometres -> css rgb */
+function nmToRGB(nm){
+  let r=0,g=0,b=0;
+  if(nm>=380&&nm<440){ r=-(nm-440)/60; b=1; }
+  else if(nm<490){ g=(nm-440)/50; b=1; }
+  else if(nm<510){ g=1; b=-(nm-510)/20; }
+  else if(nm<580){ r=(nm-510)/70; g=1; }
+  else if(nm<645){ r=1; g=-(nm-645)/65; }
+  else if(nm<=780){ r=1; }
+  let f = 1;
+  if(nm<420) f = .3+.7*(nm-380)/40;
+  else if(nm>700) f = .3+.7*(780-nm)/80;
+  const g8 = v => Math.round(255*Math.pow(Math.max(0,Math.min(1,v*f)), .8));
+  return 'rgb('+g8(r)+','+g8(g)+','+g8(b)+')';
+}
+
+/* hydrogen wavefunctions in the x-z plane, r in Bohr radii */
+function psi(orb,x,z){
+  const r = Math.hypot(x,z);
+  if(r < 1e-9) return orb==='1s' ? 1 : (orb==='2s' ? 2 : 0);
+  const c = z/r;
+  if(orb==='1s') return Math.exp(-r);
+  if(orb==='2s') return (2-r)*Math.exp(-r/2);
+  if(orb==='2p') return r*Math.exp(-r/2)*c;
+  return r*r*Math.exp(-r/3)*(3*c*c-1);              /* 3d z-squared */
+}
+const ORB = {'1s':{box:4.4},'2s':{box:13},'2p':{box:13},'3d':{box:27}};
+for(const k in ORB){
+  let m = 0, b = ORB[k].box;
+  for(let i=0;i<=160;i++) for(let j=0;j<=160;j++){
+    const x=-b+2*b*i/160, z=-b+2*b*j/160, p=psi(k,x,z);
+    if(p*p>m) m=p*p;
+  }
+  ORB[k].max = m*1.02;
+}
+function sampleOrb(orb){
+  const b = ORB[orb].box, m = ORB[orb].max;
+  for(let i=0;i<600;i++){
+    const x=(Math.random()*2-1)*b, z=(Math.random()*2-1)*b, p=psi(orb,x,z);
+    if(p*p > Math.random()*m) return [x,z];
+  }
+  return [0,0];
+}
+
+/* ============================== the seven models ============================== */
+const MODELS = [
+  {key:'democritus', tick:'c.400\nBCE', yr:'c. 400 BCE', nm:'The Uncuttable',    who:'Democritus of Abdera', col:C.ink2},
+  {key:'dalton',     tick:'1803',       yr:'1803',       nm:'The Billiard Ball', who:'John Dalton',           col:C.gold},
+  {key:'thomson',    tick:'1904',       yr:'1897 to 1904',nm:'The Plum Pudding',  who:'J. J. Thomson',         col:C.hb},
+  {key:'rutherford', tick:'1911',       yr:'1909 to 1911',nm:'The Nuclear Atom',  who:'Ernest Rutherford',     col:C.ha},
+  {key:'bohr',       tick:'1913',       yr:'1913',       nm:'The Bohr Atom',     who:'Niels Bohr',            col:C.hg},
+  {key:'sommerfeld', tick:'1916',       yr:'1916',       nm:'Elliptical Orbits', who:'Arnold Sommerfeld',     col:C.hd},
+  {key:'quantum',    tick:'1926',       yr:'1924 to 1927',nm:'The Quantum Model', who:'Schrödinger & Born',    col:C.hb}
+];
+
+/* deterministic jagged shapes for the Democritus panel */
+const SHARDS = (function(){
+  let s = 8123; const rnd = ()=> (s = (s*1103515245+12345) & 0x7fffffff) / 0x7fffffff;
+  return Array.from({length:7}, ()=>{
+    const n = 4 + Math.floor(rnd()*4), pts = [];
+    for(let i=0;i<n;i++){ const a = i/n*TAU + rnd()*.4; const r = .55+rnd()*.45; pts.push([Math.cos(a)*r, Math.sin(a)*r]); }
+    return {pts, x:(rnd()*2-1), y:(rnd()*2-1), s:.4+rnd()*.7, vx:(rnd()-.5)*.09, vy:(rnd()-.5)*.09, sp:(rnd()-.5)*.5};
+  });
+})();
+const CLOUD = Array.from({length:1500}, ()=> sampleOrb('2p'));
+
+/* Orbital phase for the Bohr figure, as a fraction of one loop. The electron holds
+   still through each transition (a jump is an event, not a journey) so the photon
+   leaves from the electron itself and the absorbed one arrives back on it.       */
+function bohrSpin(c){
+  const k = 1/0.72, seg = [[0,.44,k],[.44,.60,0],[.60,.88,k],[.88,1,0]];
+  let acc = 0;
+  for(let i=0;i<4;i++){ const g=seg[i]; if(c<=g[0]) break; acc += (Math.min(c,g[1])-g[0])*g[2]; }
+  return acc;
+}
+
+function glow(ctx,x,y,r,col,a){
+  const g = ctx.createRadialGradient(x,y,0,x,y,r);
+  g.addColorStop(0, col); g.addColorStop(.45, col.replace('rgb','rgba').replace(')',','+(a*.5)+')'));
+  g.addColorStop(1, 'rgba(0,0,0,0)');
+  ctx.globalAlpha = a; ctx.fillStyle = g;
+  ctx.beginPath(); ctx.arc(x,y,r,0,TAU); ctx.fill(); ctx.globalAlpha = 1;
+}
+/* One wave packet of FIXED length and FIXED wavelength travelling along a ray.
+   tail/head are distances from (ox,oy) along ang, so the packet translates instead
+   of stretching; the envelope tapers both ends so it reads as a pulse of light.   */
+function wavePacket(ctx, ox, oy, ang, tail, head, lam, amp, col, alpha, phase){
+  const span = head-tail;
+  if(span <= 1 || alpha <= 0.01) return;
+  const ca=Math.cos(ang), sa=Math.sin(ang), steps=clamp(Math.round(span/2),10,110);
+  ctx.save(); ctx.globalAlpha=alpha; ctx.strokeStyle=col; ctx.lineWidth=1.8; ctx.lineJoin='round';
+  ctx.beginPath();
+  for(let k=0;k<=steps;k++){
+    const u=k/steps, d=tail+span*u;
+    const off = Math.sin(d/lam*TAU + phase) * amp * Math.sin(Math.PI*u);
+    const px = ox+ca*d-sa*off, py = oy+sa*d+ca*off;
+    k? ctx.lineTo(px,py) : ctx.moveTo(px,py);
+  }
+  ctx.stroke(); ctx.restore();
+}
+function softDot(ctx,x,y,r,col){
+  const g = ctx.createRadialGradient(x,y,0,x,y,r);
+  g.addColorStop(0,col); g.addColorStop(1,'rgba(0,0,0,0)');
+  ctx.fillStyle = g; ctx.beginPath(); ctx.arc(x,y,r,0,TAU); ctx.fill();
+}
+
+/* the shared figure: one atom, seven ways */
+function drawModel(ctx, W, H, key, t, scale){
+  const cx = W/2, cy = H/2, R = Math.min(W,H)*0.36*(scale||1);
+  ctx.save();
+  ctx.lineCap = 'round';
+
+  if(key==='democritus'){
+    ctx.strokeStyle = 'rgba(169,161,198,.16)';
+    ctx.lineWidth = 1;
+    for(let i=0;i<24;i++){                       /* the void: a sparse dust */
+      const a = i*2.4, rr = R*1.9*(i/24);
+      ctx.globalAlpha=.25;
+      ctx.beginPath(); ctx.arc(cx+Math.cos(a+t*.05)*rr, cy+Math.sin(a*1.3+t*.04)*rr*.6, .8,0,TAU);
+      ctx.fillStyle=C.ink3; ctx.fill(); ctx.globalAlpha=1;
+    }
+    SHARDS.forEach((sh,i)=>{
+      const x = cx + clamp(sh.x + Math.sin(t*sh.vx*3+i)*.32, -1, 1) * R*1.25;
+      const y = cy + clamp(sh.y + Math.cos(t*sh.vy*3+i)*.28, -1, 1) * R*.78;
+      const rot = t*sh.sp*.5;
+      ctx.save(); ctx.translate(x,y); ctx.rotate(rot); ctx.scale(R*.3*sh.s, R*.3*sh.s);
+      ctx.beginPath();
+      sh.pts.forEach((p,j)=> j? ctx.lineTo(p[0],p[1]) : ctx.moveTo(p[0],p[1]));
+      ctx.closePath(); ctx.restore();
+      ctx.fillStyle = 'rgba(169,161,198,.13)'; ctx.fill();
+      ctx.strokeStyle = C.ink2; ctx.lineWidth = 1.2; ctx.stroke();
+    });
+  }
+
+  else if(key==='dalton'){
+    glow(ctx,cx,cy,R*1.9,'rgb(217,164,65)',.10);
+    const g = ctx.createRadialGradient(cx-R*.35,cy-R*.4,R*.05,cx,cy,R);
+    g.addColorStop(0,'#F7DFA8'); g.addColorStop(.42,'#D9A441'); g.addColorStop(1,'#6E4E18');
+    ctx.fillStyle=g; ctx.beginPath(); ctx.arc(cx,cy,R,0,TAU); ctx.fill();
+    ctx.strokeStyle='rgba(247,223,168,.35)'; ctx.lineWidth=1; ctx.stroke();
+  }
+
+  else if(key==='thomson'){
+    glow(ctx,cx,cy,R*1.8,'rgb(47,227,198)',.13);
+    const g = ctx.createRadialGradient(cx,cy,R*.1,cx,cy,R);
+    g.addColorStop(0,'rgba(47,227,198,.30)'); g.addColorStop(1,'rgba(47,227,198,.06)');
+    ctx.fillStyle=g; ctx.beginPath(); ctx.arc(cx,cy,R,0,TAU); ctx.fill();
+    ctx.strokeStyle='rgba(47,227,198,.55)'; ctx.lineWidth=1.2; ctx.stroke();
+    ctx.strokeStyle='rgba(47,227,198,.30)'; ctx.lineWidth=1;
+    for(let i=0;i<9;i++){                         /* diffuse positive charge */
+      const a=i*1.7+t*.12, rr=R*(.2+.62*((i*37)%100)/100);
+      const x=cx+Math.cos(a)*rr, y=cy+Math.sin(a)*rr, s=R*.055;
+      ctx.beginPath(); ctx.moveTo(x-s,y); ctx.lineTo(x+s,y); ctx.moveTo(x,y-s); ctx.lineTo(x,y+s); ctx.stroke();
+    }
+    for(let i=0;i<8;i++){                          /* embedded electrons, in rings */
+      const ring = i<3?.38:.74, a = i*TAU/(i<3?3:5) + t*(i<3?.28:-.18);
+      const x=cx+Math.cos(a)*R*ring, y=cy+Math.sin(a)*R*ring;
+      softDot(ctx,x,y,R*.16,'rgba(190,255,245,.5)');
+      ctx.fillStyle='#EAFFFB'; ctx.beginPath(); ctx.arc(x,y,R*.055,0,TAU); ctx.fill();
+    }
+  }
+
+  else if(key==='rutherford' || key==='bohr' || key==='sommerfeld'){
+    const nucCol = key==='rutherford' ? 'rgb(255,59,78)' : (key==='bohr'?'rgb(91,120,255)':'rgb(160,92,255)');
+    if(key==='rutherford'){
+      ctx.strokeStyle='rgba(255,255,255,.07)'; ctx.lineWidth=1;
+      for(let i=1;i<=3;i++){ ctx.beginPath(); ctx.arc(cx,cy,R*(.42+i*.2),0,TAU); ctx.stroke(); }
+      for(let i=0;i<4;i++){
+        const rr=R*(.62+ (i%3)*.2), a=t*(.5-i*.09)+i*1.9;
+        const x=cx+Math.cos(a)*rr, y=cy+Math.sin(a)*rr*.86;
+        softDot(ctx,x,y,R*.13,'rgba(255,160,170,.4)');
+        ctx.fillStyle='#FFE4E7'; ctx.beginPath(); ctx.arc(x,y,R*.035,0,TAU); ctx.fill();
+      }
+    }
+    if(key==='bohr'){
+      for(let n=1;n<=3;n++){
+        const rr = R*(.3+ n*n*.085);
+        ctx.strokeStyle = n===2 ? 'rgba(91,120,255,.55)' : 'rgba(91,120,255,.24)';
+        ctx.lineWidth = 1.1; ctx.setLineDash(n===2?[]:[3,4]);
+        ctx.beginPath(); ctx.arc(cx,cy,rr,0,TAU); ctx.stroke(); ctx.setLineDash([]);
+      }
+      /* 4 s loop: orbit n=3, drop to n=2 emitting a photon, absorb one, climb back. */
+      const CYC=4, cyc=(t%CYC)/CYC, high=R*(.3+9*.085), low=R*(.3+4*.085);
+      const rr = cyc<.44 ? high
+               : cyc<.50 ? high+(low-high)*((cyc-.44)/.06)
+               : cyc<.92 ? low
+               : cyc<.98 ? low+(high-low)*((cyc-.92)/.06) : high;
+      const turn = c => 3.6*(Math.floor(t/CYC) + bohrSpin(c));
+      const a = turn(cyc);
+      const x=cx+Math.cos(a)*rr, y=cy+Math.sin(a)*rr;
+      const LEN=R*.52, LAM=R*.105, AMP=R*.055, FAR=R*2.3;
+      /* Emission starts at cyc .44, where the electron is stationary on n=3, so the
+         packet's tail begins exactly on it. Absorption collapses onto it at cyc .92. */
+      if(cyc>=.44 && cyc<.72){
+        const q=(cyc-.44)/.28, ang=turn(.44);
+        const head=high+q*(FAR+LEN), tail=Math.max(high, head-LEN);
+        wavePacket(ctx,cx,cy,ang,tail,head,LAM,AMP,'rgb(255,59,78)',
+                   (q<.6?1:1-(q-.6)/.4)*.95, -t*9);
+      }
+      if(cyc>=.74 && cyc<.92){
+        const q=1-(cyc-.74)/.18, ang=turn(.92);
+        const head=low+q*(FAR+LEN), tail=Math.max(low, head-LEN);
+        wavePacket(ctx,cx,cy,ang,tail,head,LAM,AMP,'rgb(255,59,78)',
+                   (q>.5?1:q/.5)*.8, t*9);
+      }
+      softDot(ctx,x,y,R*.15,'rgba(150,175,255,.5)');
+      ctx.fillStyle='#E6ECFF'; ctx.beginPath(); ctx.arc(x,y,R*.045,0,TAU); ctx.fill();
+    }
+    if(key==='sommerfeld'){
+      const orbits=[{a:R*1.0,b:R*1.0,rot:0},{a:R*1.0,b:R*.66,rot:.9},{a:R*1.0,b:R*.33,rot:2.1}];
+      orbits.forEach((o,i)=>{
+        ctx.save(); ctx.translate(cx,cy); ctx.rotate(o.rot);
+        ctx.translate(Math.sqrt(Math.max(0,o.a*o.a-o.b*o.b)),0);   /* nucleus at a focus */
+        ctx.strokeStyle= i===0?'rgba(160,92,255,.28)':'rgba(160,92,255,.6)';
+        ctx.lineWidth=1.1; ctx.beginPath(); ctx.ellipse(0,0,o.a,o.b,0,0,TAU); ctx.stroke();
+        const an = t*(.7+i*.3)+i*2;
+        const ex=Math.cos(an)*o.a, ey=Math.sin(an)*o.b;
+        ctx.fillStyle='#EEDCFF'; ctx.beginPath(); ctx.arc(ex,ey,R*.04,0,TAU); ctx.fill();
+        ctx.restore();
+      });
+    }
+    glow(ctx,cx,cy,R*.6,nucCol,.55);
+    ctx.fillStyle = key==='rutherford' ? '#FFD9DD' : (key==='bohr'?'#DCE3FF':'#EEDCFF');
+    ctx.beginPath(); ctx.arc(cx,cy, key==='rutherford'? R*.035 : R*.06, 0, TAU); ctx.fill();
+  }
+
+  else if(key==='quantum'){
+    const k = R/7;
+    ctx.globalCompositeOperation='lighter';
+    CLOUD.forEach((p,i)=>{
+      const wob = REDUCED?0:Math.sin(t*1.1+i*.7)*.6;
+      const x = cx+p[0]*k+wob, y = cy-p[1]*k+wob;
+      const d = Math.abs(p[1])>Math.abs(p[0])? 1 : .7;
+      ctx.fillStyle = 'rgba(47,227,198,'+(.16*d)+')';
+      ctx.beginPath(); ctx.arc(x,y,1.25,0,TAU); ctx.fill();
+    });
+    ctx.globalCompositeOperation='source-over';
+    ctx.fillStyle='rgba(240,200,120,.9)';
+    ctx.beginPath(); ctx.arc(cx,cy,2,0,TAU); ctx.fill();
+  }
+  ctx.restore();
+}
+
+/* ============================== page chrome ============================== */
+const DONE = new Set();
+const scoreEl = $('#stScore');
+function markDone(id, el, msg){
+  if(DONE.has(id)) return;
+  DONE.add(id); scoreEl.textContent = DONE.size;
+  scoreEl.parentElement.classList.add('pulse');
+  setTimeout(()=>scoreEl.parentElement.classList.remove('pulse'), 520);
+  if(el){ el.classList.add('win'); if(msg) el.innerHTML = msg; }
+}
+function seg(root, attr, cb){
+  const btns = $$('button['+attr+']', root);
+  btns.forEach(b=> b.addEventListener('click', ()=>{
+    btns.forEach(o=> o.setAttribute('aria-pressed', String(o===b)));
+    cb(b.getAttribute(attr), b);
+  }));
+  return btns;
+}
+
+/* --- hero scrubber --- */
+(function(){
+  const cv = $('#heroCanvas'), ctx = cv.getContext('2d');
+  const tag = $('#heroTag'), slider = $('#heroScrub'), ticks = $('#heroTicks');
+  cv.style.transition = 'opacity .16s linear';
+  let idx = 0, auto = !REDUCED, lastAuto = 0;
+
+  ticks.innerHTML = MODELS.map((m,i)=>'<button type="button" data-i="'+i+'">'+m.tick.replace('\n','<br>')+'</button>').join('');
+  const tickBtns = $$('button', ticks);
+
+  function paint(){
+    const m = MODELS[idx];
+    tag.style.setProperty('--era', m.col);
+    $('.yr', tag).textContent = m.yr;
+    $('.nm', tag).textContent = m.nm;
+    $('.who', tag).textContent = m.who;
+    slider.value = idx;
+    tickBtns.forEach((b,i)=> b.setAttribute('aria-current', String(i===idx)));
+  }
+  function goto(i, byUser){
+    i = clamp(i,0,MODELS.length-1);
+    if(i===idx){ paint(); return; }
+    if(byUser) auto = false;
+    cv.style.opacity = '0';
+    setTimeout(()=>{ idx = i; paint(); cv.style.opacity = '1'; }, 150);
+  }
+  slider.addEventListener('input', ()=> goto(+slider.value, true));
+  tickBtns.forEach(b=> b.addEventListener('click', ()=> goto(+b.dataset.i, true)));
+
+  paint();
+  animate(cv, (dt,t)=>{
+    fit(cv);
+    if(auto && t-lastAuto > 4.2){ lastAuto = t; goto((idx+1)%MODELS.length); }
+    ctx.clearRect(0,0,cv._w,cv._h);
+    drawModel(ctx, cv._w, cv._h, MODELS[idx].key, t, 1);
+  });
+  lastAuto = performance.now()/1000;
+})();
+
+/* --- small model portraits inside each station --- */
+$$('[data-portrait]').forEach(cv=>{
+  const ctx = cv.getContext('2d'), key = MODELS[+cv.dataset.portrait].key;
+  animate(cv, (dt,t)=>{ fit(cv); ctx.clearRect(0,0,cv._w,cv._h); drawModel(ctx, cv._w, cv._h, key, t, .92); });
+});
+
+/* --- status strip, side rail, scroll spy --- */
+(function(){
+  const sections = $$('.station'), status = $('#status'),
+        now = $('#stNow'), beam = $('#stBeam'), rail = $('#rail');
+  rail.innerHTML = sections.map((s,i)=>
+    '<a href="#'+s.id+'" data-i="'+i+'"><span class="tick"></span><span>'+MODELS[i].tick.replace('\n',' ')+' &middot; '+s.dataset.name+'</span></a>').join('');
+  const links = $$('a', rail);
+  const spy = new IntersectionObserver(es=>{
+    es.forEach(e=>{
+      if(!e.isIntersecting) return;
+      const i = sections.indexOf(e.target);
+      now.textContent = e.target.dataset.name;
+      status.style.setProperty('--era', MODELS[i].col);
+      links.forEach((l,j)=> l.setAttribute('aria-current', String(i===j)));
+    });
+  },{rootMargin:'-45% 0px -45% 0px'});
+  sections.forEach(s=> spy.observe(s));
+  addEventListener('scroll', ()=>{
+    const first = sections[0].offsetTop, last = sections[sections.length-1];
+    const end = last.offsetTop + last.offsetHeight;
+    const p = clamp((scrollY + innerHeight*.5 - first) / (end - first), 0, 1);
+    beam.style.width = (p*100).toFixed(1)+'%';
+  }, {passive:true});
+})();
+
+/* ============================== 00 · THE KNIFE ============================== */
+(function(){
+  const cv = $('#knifeCanvas'), ctx = cv.getContext('2d');
+  const bCut = $('#knifeCut'), bReset = $('#knifeReset');
+  const oN = $('#knifeN'), oLen = $('#knifeLen'), oCmp = $('#knifeCmp'), verdict = $('#knifeVerdict');
+  const FLOOR = 23;
+  const CMP = ['a coarse grain of sand','a grain of table salt','the tip of a sharp pencil',
+    'a grain of fine flour','the width of a human hair','a speck of dust, just visible',
+    'a cotton fibre','a red blood cell','a mitochondrion','an E. coli bacterium, end to end',
+    'a small bacterium','the wavelength of blue-green light','the resolution limit of any light microscope',
+    'an influenza virus','smaller than almost every virus','a ribosome','an antibody molecule',
+    'the thickness of a cell membrane','a haemoglobin molecule','the width of the DNA double helix',
+    'a sugar molecule','three or four atoms side by side','a water molecule','one carbon atom'];
+
+  /* cut() never changes the wire's on-screen size. It splits the bar at the midpoint,
+     then scales the view x2 about the bar's LEFT edge over DUR seconds, so the kept half
+     grows back to fill the frame while the discarded half is carried out to the right.
+     The length readout under the bar is what actually halves.                          */
+  const DUR = 0.34, HOLD = 0.32, MORPH = 0.8;   /* HOLD: fraction of DUR the seam shows before the zoom */
+  let n = 0, anim = 1, morph = 0, shake = 0, refused = 0;
+
+  function fmt(m){
+    let u='m', v=m;
+    if(m>=1e-3){ u='mm'; v=m*1e3; } else if(m>=1e-6){ u='µm'; v=m*1e6; }
+    else if(m>=1e-9){ u='nm'; v=m*1e9; } else { u='pm'; v=m*1e12; }
+    const s = v>=100? v.toFixed(0) : v>=10? v.toFixed(1) : v.toFixed(2);
+    return s+' <small>'+u+'</small>';
+  }
+  function plain(m){
+    let u='m', v=m;
+    if(m>=1e-3){ u='mm'; v=m*1e3; } else if(m>=1e-6){ u='\u00B5m'; v=m*1e6; }
+    else if(m>=1e-9){ u='nm'; v=m*1e9; } else { u='pm'; v=m*1e12; }
+    return (v>=100? v.toFixed(0) : v>=10? v.toFixed(1) : v.toFixed(2))+' '+u;
+  }
+  function sync(){
+    oN.textContent = n;
+    oLen.innerHTML = fmt(1e-3/Math.pow(2,n));
+    oCmp.textContent = CMP[n];
+    if(n===FLOOR && !verdict.classList.contains('win')){
+      markDone('knife', verdict, '<b>&#7940;&tau;&omicron;&mu;&omicron;&sigmaf;</b>, uncuttable. Twenty-three halvings take 1 mm down to 119 pm, under the 154 pm diameter of a carbon atom. Democritus had no way to reach that number. His claim was only that a number had to exist.');
+    } else if(n<FLOOR){
+      verdict.textContent = n===0 ? 'Start with a wire one millimetre long. Cut it in half and throw one half away. Keep going.'
+        : 'Cut '+n+'. Still matter. Still cuttable.';
+    }
+  }
+  function cut(){
+    if(n>=FLOOR){ refused = 1; shake = 1; return; }
+    n++; anim = 0; sync();
+  }
+  bCut.addEventListener('click', cut);
+  bReset.addEventListener('click', ()=>{ n=0; anim=1; morph=0; refused=0; verdict.classList.remove('win'); sync(); });
+  let hold=null;
+  bCut.addEventListener('pointerdown', ()=>{ clearInterval(hold);
+    hold=setInterval(()=>{ if(anim>=1) cut(); }, 60); });
+  ['pointerup','pointerleave','pointercancel'].forEach(e=> bCut.addEventListener(e, ()=> clearInterval(hold)));
+  sync();
+
+  animate(cv,(dt,t)=>{
+    fit(cv);
+    const W=cv._w, H=cv._h; ctx.clearRect(0,0,W,H);
+    anim  = Math.min(1, anim + dt/DUR);
+    shake = Math.max(0, shake - dt*3.4);
+    if(n>=FLOOR && anim>=1) morph = Math.min(1, morph + dt/MORPH);
+    if(refused>0 && morph>=1) refused = Math.max(0, refused - dt*0.3);
+
+    const q  = anim<HOLD ? 0 : (anim-HOLD)/(1-HOLD);
+    const p  = 1-Math.pow(1-q,3);               /* zoom progress, starts after the hold */
+    const g0 = Math.min(1, anim/HOLD);          /* the knife going in */
+    const e  = 1-Math.pow(1-morph,3);           /* wire -> sphere */
+    const sx = (Math.random()-.5)*shake*7;
+
+    const full = W*.66, L = (W-full)/2, cy = H*.42, bh = Math.max(10, H*.15);
+    const k    = 1 + p;                          /* view scale about L: 1x -> 2x */
+    const keptW = (full/2)*k;                    /* half the bar, zoomed back to full */
+    const gap   = g0*W*.008 + p*W*.055;
+
+    const grad = ctx.createLinearGradient(0,cy-bh/2,0,cy+bh/2);
+    grad.addColorStop(0,'#F0C878'); grad.addColorStop(.45,'#D9A441'); grad.addColorStop(1,'#8A6320');
+
+    let shapeW = keptW, shapeH = bh, sbx = L;
+
+    if(morph>0){
+      /* 119 pm of carbon cannot be a wire. The bar rounds off into one atom, 154 pm
+         across, and the view pulls back to fit it.                                   */
+      const D = Math.min(full*.42, H*.46);
+      const w = full + (D-full)*e, h = bh + (D-bh)*e;
+      const r = Math.min(w,h)/2*e + 2*(1-e);
+      const x = W/2-w/2+sx, y = cy-h/2;
+      shapeW = w; shapeH = h; sbx = W/2-w/2;
+
+      if(e>0.02) glow(ctx, W/2, cy, D*1.9, 'rgb(217,164,65)', .22*e);
+
+      ctx.save();
+      ctx.beginPath(); ctx.roundRect(x, y, w, h, r); ctx.clip();
+      ctx.globalAlpha = 1-e; ctx.fillStyle = grad; ctx.fillRect(x, y, w, h);
+      const sg = ctx.createRadialGradient(W/2-w*.15, cy-h*.17, 1, W/2, cy, Math.max(w,h)*.58);
+      sg.addColorStop(0,'#F7DFA8'); sg.addColorStop(.5,'#D9A441'); sg.addColorStop(1,'#6E4E18');
+      ctx.globalAlpha = e; ctx.fillStyle = sg; ctx.fillRect(x, y, w, h);
+      ctx.restore();
+
+      ctx.beginPath(); ctx.roundRect(x, y, w, h, r);
+      ctx.strokeStyle='rgba(247,223,168,.45)'; ctx.lineWidth=1; ctx.stroke();
+
+      if(refused>0){
+        ctx.font='600 11px "IBM Plex Mono", monospace'; ctx.textAlign='center';
+        ctx.fillStyle='rgba(255,59,78,'+Math.min(1,refused)+')';
+        ctx.fillText('THE KNIFE WILL NOT GO IN', W/2, cy-h/2-14);
+      }
+    } else {
+      if(p<1){                                   /* the half being carried away */
+        ctx.save();
+        ctx.globalAlpha = 1-Math.max(0,(p-.15)/.85);   /* solid while it is still attached */
+        ctx.fillStyle=grad; ctx.fillRect(L+keptW+gap, cy-bh/2, keptW, bh);
+        ctx.strokeStyle='rgba(247,223,168,.35)'; ctx.lineWidth=1;
+        ctx.strokeRect(L+keptW+gap, cy-bh/2, keptW, bh);
+        ctx.restore();
+      }
+
+      ctx.fillStyle=grad; ctx.fillRect(L+sx, cy-bh/2, keptW, bh);
+      ctx.strokeStyle='rgba(247,223,168,.45)'; ctx.lineWidth=1;
+      ctx.strokeRect(L+sx, cy-bh/2, keptW, bh);
+
+      if(p<1){                                   /* the fresh cut face */
+        ctx.strokeStyle='rgba(20,14,4,.85)'; ctx.lineWidth=2;
+        ctx.beginPath(); ctx.moveTo(L+keptW+sx, cy-bh/2); ctx.lineTo(L+keptW+sx, cy+bh/2); ctx.stroke();
+      } else {                                   /* where the next cut will land */
+        ctx.setLineDash([4,5]);
+        ctx.strokeStyle='rgba(255,59,78,'+(.45+.3*Math.sin(t*4))+')'; ctx.lineWidth=1.4;
+        ctx.beginPath(); ctx.moveTo(L+full/2+sx, cy-bh*1.25); ctx.lineTo(L+full/2+sx, cy+bh*1.25); ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.font='500 9px "IBM Plex Mono", monospace'; ctx.textAlign='center';
+        ctx.fillStyle='rgba(255,59,78,.75)'; ctx.fillText('CUT HERE', L+full/2, cy-bh*1.45);
+      }
+    }
+
+    /* scale bar: the specimen keeps its size on screen, this number is what halves */
+    const sy = cy + Math.max(bh, shapeH)/2 + Math.max(24, H*.13);
+    ctx.strokeStyle=C.ink3; ctx.lineWidth=1.2;
+    ctx.beginPath();
+    ctx.moveTo(sbx, sy); ctx.lineTo(sbx+shapeW, sy);
+    ctx.moveTo(sbx, sy-5); ctx.lineTo(sbx, sy+5);
+    ctx.moveTo(sbx+shapeW, sy-5); ctx.lineTo(sbx+shapeW, sy+5);
+    ctx.stroke();
+    ctx.font='600 12px "IBM Plex Mono", monospace'; ctx.textAlign='center';
+    const a1 = Math.max(0, 1-e*2), a2 = Math.max(0, e*2-1);
+    if(a1>0){ ctx.fillStyle='rgba(240,200,120,'+a1+')';
+              ctx.fillText(plain(1e-3/Math.pow(2,n)), sbx+shapeW/2, sy+19); }
+    if(a2>0){ ctx.fillStyle='rgba(240,200,120,'+a2+')';
+              ctx.fillText('154 pm', sbx+shapeW/2, sy+19); }
+
+    ctx.font='500 10px "IBM Plex Mono", monospace'; ctx.fillStyle=C.ink3;
+    ctx.fillText(e>0.5 ? 'SPECIMEN: ONE CARBON ATOM'
+                       : 'SPECIMEN: WIRE, '+n+' CUT'+(n===1?'':'S'), W/2, H*.94);
+  });
+})();
+
+/* ============================== 01 · THE BALANCE ============================== */
+(function(){
+  const cv = $('#balCanvas'), ctx = cv.getContext('2d');
+  const oName=$('#balName'), oMass=$('#balMass'), oRatio=$('#balRatio'), verdict=$('#balVerdict');
+  const M_C = 12.011, M_O = 15.999;
+  const G1 = M_O/M_C, G2 = 2*M_O/M_C, GH = 1.5*M_O/M_C;   /* 1.332, 2.664, 1.998 g per g of C */
+  let ox = 0, seen = new Set(), reject = 0;
+
+  function sync(){
+    const names = ['C','CO','CO\u2082'];
+    oName.textContent = names[ox];
+    oMass.innerHTML = (ox*G1).toFixed(3)+' <small>g</small>';
+    if(ox>0) seen.add(ox);
+    if(seen.has(1) && seen.has(2)){
+      oRatio.textContent = '1 : 2';
+      oRatio.classList.add('hot');
+      markDone('balance', verdict,
+        'CO takes <b>1.332 g</b> of oxygen per gram of carbon; CO&#8322; takes <b>2.664 g</b>. The ratio is <b>2.000</b>. Nothing about combining two substances requires a round number here. It comes out round because oxygen arrives in identical indivisible units and the second compound takes two of them.');
+    } else {
+      oRatio.textContent = ox? 'make the other one' : '\u2013';
+      if(!verdict.classList.contains('win'))
+        verdict.textContent = ox? 'That is '+names[ox]+'. Now make the other compound and compare.' :
+          'Burn carbon with a little oxygen and you get one compound. Burn it with plenty and you get another. Make both, then compare how much oxygen each one took.';
+    }
+  }
+  seg($('#s1'), 'data-ox', v=>{ ox = +v; sync(); });
+  $('#balHalf').addEventListener('click', ()=>{
+    reject = 1;
+    if(!verdict.classList.contains('win'))
+      verdict.innerHTML = 'Half an oxygen on one carbon would weigh <b>1.998 g</b> per gram of carbon, a ratio of <b>1 : 1.5</b> against CO. Chemists have isolated CO, CO&#8322; and C&#8323;O&#8322;. Nothing with this composition has ever been isolated, and every carbon oxide ever weighed lands on whole numbers of atoms. That is the evidence behind postulate 1.';
+  });
+  sync();
+
+  animate(cv,(dt,t)=>{
+    fit(cv);
+    const W=cv._w,H=cv._h; ctx.clearRect(0,0,W,H);
+    reject = Math.max(0, reject - dt*.34);
+    const ra = Math.min(1, reject*2.5);            /* solid for ~1.8 s, then fades */
+    const cx = W*.21, cy = H*.5,
+          r  = Math.min(Math.max(12,(W*.29-48)/2.97), H*.155);   /* keeps clear of the bar labels */
+
+    /* the molecule */
+    const slots = ox===1 ? [[1,0]] : ox===2 ? [[1,0],[-1,0]] : [];
+    ctx.strokeStyle='rgba(169,161,198,.35)'; ctx.lineWidth=2;
+    slots.forEach(s=>{ ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(cx+s[0]*r*2.05, cy+s[1]*r*2.05); ctx.stroke(); });
+    slots.forEach(s=>{
+      const x=cx+s[0]*r*2.05, y=cy+s[1]*r*2.05, rr=r*.92;
+      glow(ctx,x,y,rr*2.2,'rgb(47,227,198)',.16);
+      const g=ctx.createRadialGradient(x-rr*.3,y-rr*.35,1,x,y,rr);
+      g.addColorStop(0,'#BFFFF3'); g.addColorStop(.5,'#2FE3C6'); g.addColorStop(1,'#0E5A4E');
+      ctx.fillStyle=g; ctx.beginPath(); ctx.arc(x,y,rr,0,TAU); ctx.fill();
+      ctx.fillStyle='rgba(7,6,13,.8)'; ctx.font='600 '+Math.round(rr*.8)+'px "IBM Plex Mono", monospace';
+      ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('O',x,y);
+    });
+
+    if(ra>0){                                      /* the half-atom, on a real bond site */
+      const hx = cx, hy = cy-r*2.05, rr = r*.92;        /* a free bond site, clear of the real O */
+      ctx.save(); ctx.globalAlpha = ra;
+      ctx.strokeStyle=C.ha; ctx.lineWidth=1.6; ctx.setLineDash([3,4]);
+      ctx.beginPath(); ctx.moveTo(cx,cy); ctx.lineTo(hx,hy); ctx.stroke();
+      ctx.fillStyle='rgba(255,59,78,.13)';
+      ctx.beginPath(); ctx.arc(hx,hy,rr,Math.PI*.5,Math.PI*1.5); ctx.closePath();
+      ctx.fill(); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.fillStyle=C.ha; ctx.font='600 9.5px "IBM Plex Mono", monospace';
+      ctx.textAlign='center'; ctx.textBaseline='alphabetic';
+      ctx.fillText('\u00BD O', hx, hy-rr-7);
+      ctx.textBaseline='middle';
+      ctx.restore();
+    }
+
+    glow(ctx,cx,cy,r*2.4,'rgb(217,164,65)',.18);
+    const gc=ctx.createRadialGradient(cx-r*.3,cy-r*.35,1,cx,cy,r);
+    gc.addColorStop(0,'#F7DFA8'); gc.addColorStop(.5,'#D9A441'); gc.addColorStop(1,'#6E4E18');
+    ctx.fillStyle=gc; ctx.beginPath(); ctx.arc(cx,cy,r,0,TAU); ctx.fill();
+    ctx.fillStyle='rgba(7,6,13,.85)'; ctx.font='600 '+Math.round(r*.8)+'px "IBM Plex Mono", monospace';
+    ctx.textAlign='center'; ctx.textBaseline='middle'; ctx.fillText('C',cx,cy);
+
+    /* oxygen per 1.000 g of carbon */
+    const bx = W*.50, bw = W*.34, top = H*.24, bh = Math.max(13,H*.12), gap = bh*1.6;
+    ctx.textBaseline='middle';
+    [{lab:'CO', v:G1, on:seen.has(1)}, {lab:'CO\u2082', v:G2, on:seen.has(2)}].forEach((d,i)=>{
+      const y = top + i*(bh+gap), w = bw*(d.v/G2);
+      ctx.fillStyle='rgba(255,255,255,.035)'; ctx.fillRect(bx,y,bw,bh);
+      ctx.strokeStyle=C.line; ctx.lineWidth=1; ctx.strokeRect(bx+.5,y+.5,bw-1,bh-1);
+      if(d.on){
+        const g2=ctx.createLinearGradient(bx,0,bx+w,0);
+        g2.addColorStop(0,'rgba(47,227,198,.9)'); g2.addColorStop(1,'rgba(47,227,198,.5)');
+        ctx.fillStyle=g2; ctx.fillRect(bx,y,w,bh);
+        ctx.fillStyle='rgba(7,6,13,.9)'; ctx.font='600 10.5px "IBM Plex Mono", monospace';
+        ctx.textAlign='right'; ctx.fillText(d.v.toFixed(3)+' g', bx+w-8, y+bh/2);
+      } else {
+        ctx.fillStyle=C.ink3; ctx.font='500 10px "IBM Plex Mono", monospace'; ctx.textAlign='left';
+        ctx.fillText('not measured yet', bx+8, y+bh/2);
+      }
+      ctx.fillStyle=d.on?C.ink:C.ink3; ctx.font='600 11px "IBM Plex Mono", monospace'; ctx.textAlign='right';
+      ctx.fillText(d.lab, bx-10, y+bh/2);
+    });
+
+    if(ra>0){                                      /* what half an atom would have weighed */
+      const pbh = bh*.72, py = top+bh+(gap-pbh)/2, pw = bw*(GH/G2);
+      ctx.save(); ctx.globalAlpha = ra;
+      ctx.fillStyle='rgba(255,59,78,.10)'; ctx.fillRect(bx,py,pw,pbh);
+      ctx.strokeStyle=C.ha; ctx.lineWidth=1.2; ctx.setLineDash([4,4]);
+      ctx.strokeRect(bx+.5,py+.5,pw-1,pbh-1); ctx.setLineDash([]);
+      ctx.font='600 10px "IBM Plex Mono", monospace';
+      ctx.fillStyle=C.ha; ctx.textAlign='right'; ctx.fillText('CO\u2081.\u2085', bx-10, py+pbh/2);
+      ctx.font='600 9.5px "IBM Plex Mono", monospace';
+      ctx.fillStyle='rgba(255,150,160,.95)';
+      if(pw > 125){ ctx.textAlign='left'; ctx.fillText('1 : 1.5', bx+8, py+pbh/2); }
+      ctx.textAlign='right'; ctx.fillText('1.998 g', bx+pw-8, py+pbh/2);
+      ctx.restore();
+    }
+
+    ctx.fillStyle=C.ink3; ctx.font='500 9.5px "IBM Plex Mono", monospace'; ctx.textAlign='left';
+    ctx.fillText('OXYGEN PER 1.000 g CARBON', bx, top-14);
+    if(seen.has(1)&&seen.has(2)){
+      const y1=top+bh/2, y2=top+bh+gap+bh/2, x=bx+bw+9;
+      ctx.strokeStyle=C.gold; ctx.lineWidth=1.2;
+      ctx.beginPath(); ctx.moveTo(x-5,y1); ctx.lineTo(x,y1); ctx.lineTo(x,y2); ctx.lineTo(x-5,y2); ctx.stroke();
+      ctx.fillStyle=C.gold; ctx.font='600 12px "IBM Plex Mono", monospace'; ctx.textAlign='left';
+      ctx.fillText('1 : 2', x+7, (y1+y2)/2);
+    }
+  });
+})();
+
+/* ============================== 02 · THE DISCHARGE TUBE ============================== */
+(function(){
+  const cv=$('#crtCanvas'), ctx=cv.getContext('2d');
+  const sV=$('#crtVolts'), lV=$('#crtVLabel');
+  const bMag=$('#crtMagnet');
+  const oD=$('#crtDefl'), oT=$('#crtToward'), oF=$('#crtField'), oEM=$('#crtEM'), verdict=$('#crtVerdict');
+  /* Thomson names air, hydrogen and carbonic acid in the 1897 paper. Neon is not an
+     option here: Ramsay and Travers did not find it until 1898.                      */
+  const GAS = { air:      {c:'#C9A0FF', n:'AIR',           s:'AIR'},
+                hydrogen: {c:'#FF7BA8', n:'HYDROGEN',      s:'H\u2082'},
+                co2:      {c:'#9FD8FF', n:'CARBONIC ACID', s:'CO\u2082'} };
+  /* Ions liberated from the residual gas drift to the plates and cancel the field.
+     build = how fast that screening charge accumulates, drain = how fast the pump
+     clears it. They are the only difference between the three settings.            */
+  const PUMP = { low:    {build:3.40, drain:0.00, glow:1.00, w:'LOW'},
+                 medium: {build:0.52, drain:0.03, glow:0.42, w:'MEDIUM'},
+                 high:   {build:0.00, drain:2.20, glow:0.05, w:'HIGH'} };
+  /* An electromagnet has inductance, so its field ramps like an RL circuit rather
+     than switching instantly. magF is the field actually present; magOn is the switch. */
+  const MAG_TAU = 0.25;
+  let V=0, pump='high', gas='air', magOn=false, magF=0, screen=0, log={}, logV=null, winText='', syncAcc=0;
+
+  const held = ()=> 1-screen;                        /* fraction of the field surviving */
+  function measuring(){ return Math.abs(V)>=50 && held()>0.9 && magF<0.02; }
+
+  function sync(){
+    lV.textContent = (V>0?'+':'')+V+' V';
+    const mm = (V*held()/300)*22, net = mm - magF*11*held();
+    oD.innerHTML = Math.abs(net).toFixed(1)+' <small>mm</small>';
+    oT.textContent = Math.abs(net)<0.4 ? (Math.abs(V)<5 ? 'nothing applied'
+                      : (held()<0.15 ? 'nothing; field cancelled' : 'nothing; balanced'))
+                     : (net>0 ? 'upper plate (+)' : 'lower plate (+)');
+    oF.innerHTML = Math.round(held()*100)+'<small>%</small>';
+    if(measuring()){
+      oEM.innerHTML = '1.76 &times; 10<sup>11</sup>';
+      if(logV!==V){ log={}; logV=V; }        /* a fair test means one voltage */
+      log[gas] = {d:Math.abs((V/300)*22)};
+    } else {
+      oEM.textContent = held()<0.9 ? 'field cancelled' : (magF>0.02 ? 'magnet on' : '\u2013');
+    }
+    const done = Object.keys(log).length;
+    const WIN = 'Three gases, three glow colours, and the beam lands in the <b>same place every time</b>. Thomson checked air, hydrogen and carbonic acid, and changed the cathode metal as well. Deflection never moved, so <var>e/m</var> never moved. Whatever is streaming off the cathode is not made of the gas in the tube. It is a piece of every atom.';
+    if(done>=3 && !verdict.classList.contains('win')){ winText = WIN; markDone('crt', verdict, WIN); }
+    /* Hertz's failure is worth showing whether or not the station is already finished */
+    if(magF>0.85 && Math.abs(V)>=50 && Math.abs(net)<0.8 && held()>0.9){
+      verdict.innerHTML = 'Balanced. The electric and magnetic deflections now cancel, and this is exactly how Thomson measured the particle\u2019s speed: adjust the magnet until the two deflections match, and the speed is just the ratio of the two field strengths, <var>v = F/H</var>. He got 2.2 to 4.4 &times; 10&#8313; cm/s, roughly a tenth of the speed of light. Switch the magnet off and the electric deflection alone gives <var>e/m</var>.';
+    } else if(held()<0.35 && Math.abs(V)>=5){
+      verdict.innerHTML = 'The spot has crept back to zero. The rays are ionising the leftover gas, the gas is now conducting, and ions drifting to the plates have cancelled the field. <b>This is the result Hertz got in 1883</b>, and it is why he concluded cathode rays carry no charge. Turn the pump up to clear it.';
+    } else if(winText){
+      verdict.innerHTML = winText;
+    } else if(done===0){
+      verdict.textContent = 'If cathode rays are made of the gas in the tube, swapping the gas has to change how far the beam bends. That is the prediction. Turn the voltage up, then test all three gases and read the log on the screen.';
+    } else {
+      verdict.textContent = done+' of 3 gases logged at '+V+' V. Keep the pump on high, then switch gas.';
+    }
+  }
+  /* Changing the voltage does NOT clear the ion cloud; only breaking the circuit does.
+     Resetting it here made the spot snap out and creep back on every slider tick.    */
+  sV.addEventListener('input', ()=>{ V=+sV.value; sync(); });
+  seg($('#s2'),'data-pump', v=>{ pump=v; sync(); });
+  seg($('#s2'),'data-gas', v=>{ gas=v; screen=0; sync(); });
+  bMag.addEventListener('click', ()=>{ magOn=!magOn; bMag.setAttribute('aria-pressed',String(magOn));
+    bMag.textContent = magOn?'Magnet on':'Magnet off'; sync(); });
+  sync();
+
+  animate(cv,(dt,t)=>{
+    fit(cv);
+    const W=cv._w,H=cv._h; ctx.clearRect(0,0,W,H);
+
+    const P = PUMP[pump], before = screen, beforeM = magF;
+    if(Math.abs(V)>=5) screen += dt*(P.build*(1-screen) - P.drain*screen);
+    else               screen -= dt*3*screen;        /* no field, the charges disperse */
+    screen = clamp(screen, 0, 1);
+    const mt = magOn?1:0;
+    magF += (mt-magF)*(1-Math.exp(-dt/MAG_TAU));
+    if(Math.abs(mt-magF) < 0.0015) magF = mt;
+    if(Math.abs(screen-before) > 1e-4 || Math.abs(magF-beforeM) > 1e-4){
+      syncAcc += dt; if(syncAcc>0.07){ syncAcc=0; sync(); }
+    }
+
+    const cy=H*.56, th=H*.24, x0=W*.09, xa=W*.36, xb=W*.58, xs=W*.88;
+    const maxD = th*.86, Veff = V*held();
+    const D = -(Veff/300)*maxD + magF*maxD*.5*held();
+    const L=xb-xa, a = D / (L*(L+2*(xs-xb)));
+
+    /* residual gas glow: it fades out as the tube is pumped down */
+    const lum = P.glow;
+    if(lum>0.01){
+      const g0 = ctx.createLinearGradient(x0,0,xs,0);
+      g0.addColorStop(0, GAS[gas].c+Math.round(lum*105).toString(16).padStart(2,'0'));
+      g0.addColorStop(1, GAS[gas].c+Math.round(lum*34).toString(16).padStart(2,'0'));
+      ctx.fillStyle=g0; ctx.fillRect(x0,cy-th,xs-x0,th*2);
+    }
+
+    ctx.strokeStyle='rgba(169,161,198,.35)'; ctx.lineWidth=1.3;
+    ctx.beginPath(); ctx.roundRect(x0,cy-th,xs-x0+W*.05,th*2, Math.min(18,th*.5)); ctx.stroke();
+    ctx.fillStyle=C.ink3; ctx.fillRect(x0+6,cy-th*.4,5,th*.8);
+    ctx.fillStyle=C.line2; ctx.fillRect(W*.21,cy-th*.9,5,th*.78); ctx.fillRect(W*.21,cy+th*.12,5,th*.78);
+
+    const pt = cy-th*.46, pb = cy+th*.46;
+    [[pt,0],[pb,1]].forEach((pp,i)=>{
+      const pos = (V>0) === (i===0);
+      ctx.fillStyle = V===0 ? C.line2 : (pos? 'rgba(255,59,78,.75)' : 'rgba(91,120,255,.75)');
+      ctx.fillRect(xa,pp[0]-3,L,5);
+      if(V!==0){
+        ctx.fillStyle = pos?'#FF8E99':'#9FB0FF';
+        ctx.font='600 12px "IBM Plex Mono", monospace'; ctx.textAlign='center'; ctx.textBaseline='middle';
+        ctx.fillText(pos?'+':'\u2212', xa+L/2, pp[0]+(i?17:-15));
+      }
+    });
+    if(screen>0.05 && Math.abs(V)>=5){        /* ions crowding the plates and killing the field */
+      ctx.save(); ctx.globalAlpha=Math.min(.85,screen);
+      for(let i=0;i<14;i++){
+        const fx=xa+L*((i*37)%100)/100, up=i%2===0;
+        ctx.fillStyle = up? 'rgba(91,120,255,.9)' : 'rgba(255,59,78,.9)';
+        ctx.beginPath(); ctx.arc(fx, up? pt+9 : pb-9, 2.1, 0, TAU); ctx.fill();
+      }
+      ctx.restore();
+    }
+    if(magF>0.008){                              /* coils energising, and the field with them */
+      ctx.save(); ctx.globalAlpha = magF;
+      ctx.fillStyle='rgba(47,227,198,.18)';
+      ctx.fillRect(xa+L*.25,cy-th-13,L*.5,9); ctx.fillRect(xa+L*.25,cy+th+4,L*.5,9);
+      ctx.strokeStyle='rgba(47,227,198,'+(0.10+0.22*magF)+')'; ctx.lineWidth=1; ctx.setLineDash([2,6]);
+      for(let i=1;i<=3;i++){ const fx=xa+L*.25+L*.5*i/4;
+        ctx.beginPath(); ctx.moveTo(fx,cy-th-4); ctx.lineTo(fx,cy+th+4); ctx.stroke(); }
+      ctx.setLineDash([]);
+      ctx.fillStyle=C.hb; ctx.font='600 9px "IBM Plex Mono", monospace';
+      ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.fillText('N',xa+L*.5,cy-th-8); ctx.fillText('S',xa+L*.5,cy+th+8);
+      ctx.restore();
+    }
+
+    const beamCol='#8FFFE4';
+    ctx.lineWidth=2.2; ctx.strokeStyle=beamCol; ctx.shadowColor=beamCol; ctx.shadowBlur=12;
+    ctx.beginPath(); ctx.moveTo(x0+11,cy);
+    for(let x=x0+11;x<=xs;x+=3){
+      let y=cy;
+      if(x>xa && x<=xb) y = cy + a*(x-xa)*(x-xa);
+      else if(x>xb)     y = cy + a*L*L + 2*a*L*(x-xb);
+      ctx.lineTo(x,y);
+    }
+    ctx.stroke(); ctx.shadowBlur=0;
+
+    ctx.strokeStyle='rgba(169,161,198,.45)'; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.moveTo(xs,cy-th*.92); ctx.lineTo(xs,cy+th*.92); ctx.stroke();
+    ctx.strokeStyle='rgba(169,161,198,.25)'; ctx.lineWidth=1;
+    for(let i=-4;i<=4;i++){ const y=cy+i*maxD/4; ctx.beginPath(); ctx.moveTo(xs-5,y); ctx.lineTo(xs+5,y); ctx.stroke(); }
+    ctx.strokeStyle='rgba(169,161,198,.5)'; ctx.setLineDash([3,4]);
+    ctx.beginPath(); ctx.moveTo(xa,cy); ctx.lineTo(xs,cy); ctx.stroke(); ctx.setLineDash([]);
+    const spotY = cy + a*L*L + 2*a*L*(xs-xb);
+    glow(ctx,xs,spotY,20,'rgb(143,255,228)',.55);
+    ctx.fillStyle='#EAFFFB'; ctx.beginPath(); ctx.arc(xs,spotY,3.6,0,TAU); ctx.fill();
+
+    /* the measurement log: a null result is still a result */
+    const rows = Object.keys(log);
+    ctx.font='500 9px "IBM Plex Mono", monospace'; ctx.textAlign='left'; ctx.textBaseline='alphabetic';
+    ctx.fillStyle=C.ink3; ctx.fillText('DEFLECTION AT '+(logV===null?'\u2013':logV+' V'), W*.07, 15);
+    if(!rows.length){
+      ctx.fillStyle='rgba(169,161,198,.45)';
+      ctx.fillText('no gas logged yet', W*.07, 30);
+    } else rows.forEach((g,i)=>{
+      const y = 30+i*12;
+      ctx.fillStyle=C.ink2; ctx.fillText(GAS[g].s, W*.07, y);
+      ctx.fillStyle=C.hb;   ctx.fillText(log[g].d.toFixed(1)+' mm', W*.07+46, y);
+    });
+    ctx.textAlign='right'; ctx.fillStyle=C.ink3;
+    ctx.fillText(W<470 ? GAS[gas].s+'  \u00B7  PUMP '+P.w
+                       : GAS[gas].n+'  \u00B7  VACUUM PUMP '+P.w, W*.93, 15);
+    if(held()<0.85 && Math.abs(V)>=5){
+      ctx.fillStyle=C.ha; ctx.fillText(W<470 ? 'FIELD CANCELLED' : 'FIELD CANCELLED BY IONISED GAS', W*.93, 29);
+    }
+    ctx.font='500 9.5px "IBM Plex Mono", monospace'; ctx.textAlign='left'; ctx.fillStyle=C.ink3;
+    ctx.fillText('CATHODE', x0+2, cy+th+16);
+    ctx.textAlign='right'; ctx.fillText('SCREEN', xs+W*.045, cy+th+16);
+  });
+})();
+
+/* ============================== 03 · THE SCATTERING CHAMBER ============================== */
+(function(){
+  const cv=$('#goldCanvas'), ctx=cv.getContext('2d');
+  const bAuto=$('#goldAuto'), bClear=$('#goldClear');
+  const oF=$('#goldFired'), oT=$('#goldThrough'), oB=$('#goldBack'), oM=$('#goldMax');
+  const note=$('#goldNote'), verdict=$('#goldVerdict');
+
+  const NB = 36;
+  let atom='thomson', auto=false, parts=[], bins=new Array(NB).fill(0), flashes=[];
+  let fired=0, through=0, back=0, maxA=0, spawnAcc=0, warnedThomson=false;
+  let view=null, autoTimer=null, started=false;   /* view.vis: is the canvas on screen */
+  /* Real statistics, no exaggeration - the sim just runs fast. Most alphas miss
+     every nucleus and pass under a degree. A fraction P_HIT come close enough to
+     scatter, and for those the angle follows Rutherford's 1/sin^4(theta/2) law.
+     The two are tied by P_HIT x tan^2(theta_min/2) = 1/8000, the large-angle
+     fraction Geiger and Marsden actually measured.                              */
+  const DEG = 180/Math.PI, P_HIT = 0.02, TAN_MIN = Math.sqrt(1/(8000*P_HIT));
+
+  function scatterDeg(){
+    const small = (Math.random()+Math.random()+Math.random()-1.5)/1.5*0.85;
+    if(atom==='thomson') return small;
+    if(Math.random() < P_HIT){
+      const v = Math.max(1e-12, Math.random());
+      return (Math.random()<.5?-1:1)*2*Math.atan(TAN_MIN/Math.sqrt(v))*DEG;
+    }
+    return small;
+  }
+  function fireOne(){
+    const deg = scatterDeg(), a = Math.abs(deg);
+    fired++;
+    if(a<1) through++;
+    if(a>90) back++;
+    if(a>maxA) maxA=a;
+    let phi = deg/DEG; while(phi<0) phi+=TAU; phi%=TAU;
+    bins[Math.floor(phi/TAU*NB)%NB]++;
+    const big = a>5;
+    if((!view || view.vis) && (big || Math.random()<0.05)){
+      parts.push({p:0, th:deg/DEG, big:big});
+      if(parts.length>360) parts.splice(0,parts.length-360);
+    }
+  }
+  function sync(){
+    oF.textContent = fired.toLocaleString();
+    oT.textContent = through.toLocaleString();
+    oB.textContent = back.toLocaleString();
+    oM.textContent = maxA.toFixed(maxA<10?1:0)+'°';
+    if(atom==='rutherford' && back>0 && !verdict.classList.contains('win')){
+      markDone('gold', verdict,
+        'One came <b>back</b>. Charge spread across the whole atom gives a field too weak to do that anywhere in it. Reversing a fast alpha takes the atom’s entire positive charge and nearly all its mass inside a volume around 10&#8315;&#185;&sup2; of the atom’s own. Rutherford named it the <b>nucleus</b>.');
+    } else if(atom==='thomson' && fired>=2000 && !warnedThomson){
+      warnedThomson = true;
+      if(!verdict.classList.contains('win'))
+        verdict.textContent = fired+' alphas fired at Thomson’s atom and the widest deflection is '+maxA.toFixed(1)+'°. Spread-out positive charge makes a weak field everywhere and a strong field nowhere. Switch the foil to Rutherford’s atom.';
+    }
+  }
+  seg($('#s3'),'data-atom', v=>{
+    atom=v;
+    /* a fresh foil means a fresh count, or the totals would mix the two atoms */
+    parts=[]; bins.fill(0); flashes=[]; fired=through=back=0; maxA=0; warnedThomson=false;
+    note.textContent = v==='thomson' ? 'Thomson’s atom: nothing dense enough to hit'
+      : 'True rate: about 1 in 8,000 comes back past 90°';
+    if(!verdict.classList.contains('win'))
+      verdict.textContent = v==='rutherford'
+        ? 'Rutherford’s atom is in the foil. Counters reset. Wait for one to come back past 90°.'
+        : 'Thomson’s atom is in the foil. Counters reset. Watch the detector ring.';
+    sync();
+  });
+  function stopAuto(){ clearInterval(autoTimer); autoTimer=null; }
+  function startAuto(){
+    if(autoTimer) return;
+    let last = performance.now();
+    autoTimer = setInterval(()=>{
+      const now = performance.now(), dt = Math.min(0.25, (now-last)/1000); last = now;
+      spawnAcc += dt*1500; let k = Math.floor(spawnAcc); spawnAcc -= k;
+      while(k-- > 0) fireOne();
+      sync();
+      if(fired > 250000){ auto=false; setBtn(); stopAuto(); }
+    }, 50);
+  }
+  function setBtn(){ bAuto.setAttribute('aria-pressed',String(auto));
+    bAuto.textContent = auto?'Stop the source':'Start the source'; }
+  bAuto.addEventListener('click', ()=>{ auto=!auto; setBtn(); auto? startAuto() : stopAuto(); });
+  bClear.addEventListener('click', ()=>{ parts=[]; bins.fill(0); flashes=[];
+    fired=through=back=0; maxA=0; warnedThomson=false; sync(); });
+  sync();
+
+  view = animate(cv,(dt,t)=>{
+    if(!started){ started=true; auto=true; setBtn(); startAuto(); }   /* runs on arrival */
+    fit(cv);
+    const W=cv._w,H=cv._h; ctx.clearRect(0,0,W,H);
+    const cx=W*.52, cy=H*.5, R=Math.min(W,H)*.40;
+
+    /* detector ring */
+    const mx = Math.max(1, ...bins);
+    for(let i=0;i<NB;i++){
+      const a0=i/NB*TAU, a1=(i+1)/NB*TAU;
+      const v = bins[i]? Math.log(1+bins[i])/Math.log(1+mx) : 0;
+      ctx.strokeStyle = bins[i]? 'rgba(255,59,78,'+(0.18+v*0.82)+')' : 'rgba(169,161,198,.12)';
+      ctx.lineWidth = bins[i]? 4+v*7 : 2;
+      ctx.beginPath(); ctx.arc(cx,cy,R,a0+.012,a1-.012); ctx.stroke();
+    }
+    ctx.font='500 9px "IBM Plex Mono", monospace'; ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillStyle=C.ink3;
+    [[0,'0°'],[90,'90°'],[180,'180°'],[270,'270°']].forEach(l=>{
+      const a=l[0]*Math.PI/180;
+      ctx.fillText(l[1], cx+Math.cos(a)*(R+16), cy+Math.sin(a)*(R+16));
+    });
+    /* the back hemisphere: what is not supposed to happen */
+    ctx.strokeStyle='rgba(255,59,78,.16)'; ctx.lineWidth=1; ctx.setLineDash([2,5]);
+    ctx.beginPath(); ctx.arc(cx,cy,R*.78, Math.PI*.5, Math.PI*1.5); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle='rgba(255,59,78,.4)'; ctx.textAlign='right';
+    ctx.fillText('> 90°', cx-R*.79, cy);
+
+    /* source + collimator */
+    const sx = cx-R*1.3;
+    ctx.fillStyle='#231D33'; ctx.strokeStyle=C.line2; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.roundRect(sx-26,cy-17,30,34,2); ctx.fill(); ctx.stroke();
+    ctx.fillStyle='rgba(255,59,78,.8)'; ctx.beginPath(); ctx.arc(sx-11,cy,4,0,TAU); ctx.fill();
+    ctx.fillStyle=C.ink3; ctx.font='500 8.5px "IBM Plex Mono", monospace'; ctx.textAlign='center';
+    ctx.fillText('RADIUM', sx-11, cy+27);
+
+    /* the gold foil */
+    const fh=R*.44;
+    const gg=ctx.createLinearGradient(cx-2,0,cx+2,0);
+    gg.addColorStop(0,'#8A6320'); gg.addColorStop(.5,'#F0C878'); gg.addColorStop(1,'#8A6320');
+    ctx.fillStyle=gg; ctx.fillRect(cx-2,cy-fh,4,fh*2);
+    glow(ctx,cx,cy,fh*1.1,'rgb(217,164,65)',.10);
+    ctx.fillStyle=C.gold; ctx.font='500 8.5px "IBM Plex Mono", monospace'; ctx.textAlign='center';
+    ctx.fillText('GOLD LEAF', cx, cy-fh-9);
+    ctx.fillStyle=C.ink3; ctx.fillText('0.00004 cm', cx, cy+fh+15);
+
+    /* alphas */
+    const inLen = cx-sx, speed = 1.9;
+    for(let i=parts.length-1;i>=0;i--){
+      const p=parts[i]; p.p += dt*speed;
+      let x,y,dx,dy;
+      if(p.p<1){ x = sx + inLen*p.p; y = cy; dx=1; dy=0; }
+      else{ const q=Math.min(1,(p.p-1)/1); dx=Math.cos(p.th); dy=Math.sin(p.th);
+            x = cx + dx*R*q; y = cy + dy*R*q; }
+      const col = p.big? '255,59,78' : '255,190,120';
+      ctx.strokeStyle='rgba('+col+','+(p.big?.95:.5)+')'; ctx.lineWidth=p.big?2:1.2;
+      ctx.beginPath(); ctx.moveTo(x-dx*13,y-dy*13); ctx.lineTo(x,y); ctx.stroke();
+      if(p.p>=2){
+        let phi=p.th; while(phi<0)phi+=TAU; phi%=TAU;
+        flashes.push({a:phi, t:0, big:p.big});
+        parts.splice(i,1);
+      }
+    }
+    /* scintillations on the screen */
+    for(let i=flashes.length-1;i>=0;i--){
+      const f=flashes[i]; f.t += dt*2.6;
+      if(f.t>=1){ flashes.splice(i,1); continue; }
+      const x=cx+Math.cos(f.a)*R, y=cy+Math.sin(f.a)*R;
+      glow(ctx,x,y,(f.big?22:12)*(1-f.t*.5), f.big?'rgb(255,59,78)':'rgb(255,214,150)', (1-f.t)*.85);
+    }
+  });
+})();
+
+/* ============================== 04 · THE SPECTROSCOPE ============================== */
+(function(){
+  const cv=$('#bohrCanvas'), ctx=cv.getContext('2d');
+  const oTr=$('#bohrTrans'), oDE=$('#bohrDE'), oLam=$('#bohrLam'), oF=$('#bohrFound'), verdict=$('#bohrVerdict');
+  const RY = 13.605693, HC = 1239.8419;                  /* eV and eV·nm */
+  const E = n => -RY/(n*n);
+  const NAMES = {656:'the red line',486:'the blue-green line',434:'the blue-violet line',410:'the violet line'};
+  let cur=1, from=1, anim=1, lines=[], found=new Set(), photon=null;
+
+  function lam(ni,nf){ return HC / (RY*(1/(nf*nf) - 1/(ni*ni))); }
+
+  function settle(){ sel=cur; sN.value=cur; lN.textContent='n = '+cur;
+    tickEls.forEach((el,i)=> el.dataset.on=(i+1===cur)?'1':'0'); remember(); }
+  function jump(n){
+    n=+n;
+    if(n===cur) return;
+    if(n>cur){                                            /* absorb */
+      from=cur; cur=n; anim=0; photon=null;
+      oTr.textContent='n='+from+' → n='+n+' (absorbed)';
+      oDE.textContent='+'+(E(n)-E(from)).toFixed(3)+' eV';
+      oLam.textContent='–'; oLam.style.color='';
+      settle();
+      if(!verdict.classList.contains('win'))
+        verdict.textContent='Electron lifted to n='+n+'. It cannot stay there. Lower the slider and see what comes out.';
+      return;
+    }
+    const dE = E(cur)-E(n), L = HC/dE, col = nmToRGB(L);
+    const vis = L>=380 && L<=750;
+    from=cur; cur=n; anim=0;
+    photon={L:L, col:col, p:0, vis:vis, ni:from, nf:n, dE:dE, born:performance.now()};
+    oTr.textContent='n='+from+' → n='+n;
+    oDE.textContent=dE.toFixed(3)+' eV';
+    oLam.textContent = (L<1000? L.toFixed(1) : Math.round(L))+' nm';
+    oLam.style.color = vis? col : '';
+    settle();
+  }
+  /* called when the packet reaches the plate */
+  function land(ph){
+    if(ph.vis){
+      if(!lines.some(l=>Math.abs(l.L-ph.L)<.5)) lines.push({L:ph.L,col:ph.col,ni:ph.ni,nf:ph.nf});
+      if(ph.nf===2) found.add(ph.ni);
+      oF.textContent = found.size+'/4';
+      const key = Math.round(ph.L);
+      if(!verdict.classList.contains('win'))
+        verdict.innerHTML = '<b>'+ph.L.toFixed(1)+' nm</b>, '+(NAMES[key]||'a visible line')+
+          '. Every hydrogen atom produces this same wavelength, because the gap from n='+ph.ni+' to n='+ph.nf+' measures '+ph.dE.toFixed(3)+' eV and takes no other value.';
+    } else if(!verdict.classList.contains('win')){
+      verdict.innerHTML = '<b>'+(ph.L<1000?ph.L.toFixed(1):Math.round(ph.L))+' nm</b>, '+
+        (ph.L<380 ? 'ultraviolet. Real light, but your eye cannot see it. Every jump down to n=1 lands in the UV: the <b>Lyman series</b>.'
+                  : 'infrared. Invisible to you, visible to a thermal camera. Jumps down to n=3 make the <b>Paschen series</b>.');
+    }
+    if(found.size===4)
+      markDone('bohr', verdict,
+        'All four. These are the jumps that end on n=2, the <b>Balmer series</b>, and a spectrometer reads them at <b>656.28, 486.13, 434.05 and 410.17 nm</b> in air. Bohr derived them from one assumption, that energy comes in fixed steps, and landed within <b>0.03%</b> without ever having measured an atom. The same derivation produced the Rydberg constant, 1.09737 &times; 10&#8311; m&#8315;&#185;, out of h, c, m and e.');
+  }
+  const sN=$('#bohrN'), lN=$('#bohrNLabel'), tickEls=$$('span', $('#bohrTicks'));
+  let sel=1, last={tr:'–', de:'–', lam:'–', col:''};
+
+  function remember(){ last={tr:oTr.textContent, de:oDE.textContent,
+                            lam:oLam.textContent, col:oLam.style.color}; }
+  /* Dragging previews the transition; releasing commits it. Without that, one drag
+     from n=6 to n=2 would fire four emissions and you would only ever see the last. */
+  function preview(v){
+    sel=v; lN.textContent='n = '+v;
+    tickEls.forEach((el,i)=> el.dataset.on = (i+1===v)?'1':'0');
+    if(v===cur){ oTr.textContent=last.tr; oDE.textContent=last.de;
+                 oLam.textContent=last.lam; oLam.style.color=last.col; return; }
+    if(v>cur){
+      oTr.textContent='n='+cur+' → n='+v+' (absorb)';
+      oDE.textContent='+'+(E(v)-E(cur)).toFixed(3)+' eV';
+      oLam.textContent='–'; oLam.style.color='';
+    } else {
+      const dE=E(cur)-E(v), L=HC/dE;
+      oTr.textContent='n='+cur+' → n='+v;
+      oDE.textContent=dE.toFixed(3)+' eV';
+      oLam.textContent=(L<1000?L.toFixed(1):Math.round(L))+' nm';
+      oLam.style.color=(L>=380&&L<=750)? nmToRGB(L) : '';
+    }
+  }
+  setInterval(()=>{ if(photon && performance.now()-photon.born > 2600){ land(photon); photon=null; } }, 400);
+  sN.addEventListener('input',  ()=> preview(+sN.value));
+  sN.addEventListener('change', ()=>{ const v=+sN.value; if(v!==cur) jump(v); else preview(v); });
+  $('#bohrClear').addEventListener('click', ()=>{ lines=[]; found.clear(); oF.textContent='0/4';
+    cur=1; from=1; anim=1; photon=null; oTr.textContent='–'; oDE.textContent='–';
+    oLam.textContent='–'; oLam.style.color=''; remember(); sN.value=1; preview(1); });
+
+  animate(cv,(dt,t)=>{
+    fit(cv);
+    const W=cv._w,H=cv._h; ctx.clearRect(0,0,W,H);
+    anim = Math.min(1, anim + dt*3.4);
+    const ease = 1-Math.pow(1-anim,3);
+    const lx=W*.09, lw=W*.34, yT=H*.09, yB=H*.66;
+    const PX=W*.07, PW=W*.86, PY=H*.79, PH=H*.13, L0=380, L1=750;
+    const lineX = nm => PX+PW*(nm-L0)/(L1-L0);
+    const ys=[0];
+    for(let k=1;k<=6;k++) ys[k] = yT + Math.pow((0-E(k))/RY, 0.55)*(yB-yT);
+    for(let k=2;k<=6;k++) ys[k] = Math.min(ys[k], ys[k-1]-13);   /* keep the labels apart */
+    const yOf = k => ys[k];
+
+    ctx.textBaseline='middle';
+    for(let n=6;n>=1;n--){
+      const y=yOf(n), on = n===cur;
+      ctx.strokeStyle = on? C.hg : 'rgba(91,120,255,.28)';
+      ctx.lineWidth = on? 2 : 1;
+      ctx.beginPath(); ctx.moveTo(lx,y); ctx.lineTo(lx+lw,y); ctx.stroke();
+      ctx.font='500 10px "IBM Plex Mono", monospace'; ctx.textAlign='right';
+      ctx.fillStyle = on? C.ink : C.ink3;
+      ctx.fillText('n='+n, lx-7, y);
+      ctx.textAlign='left';
+      ctx.fillText(E(n).toFixed(2)+' eV', lx+lw+8, y);
+    }
+    ctx.strokeStyle='rgba(169,161,198,.2)'; ctx.setLineDash([2,4]);
+    ctx.beginPath(); ctx.moveTo(lx,yT); ctx.lineTo(lx+lw,yT); ctx.stroke(); ctx.setLineDash([]);
+    ctx.fillStyle=C.ink3; ctx.font='500 9px "IBM Plex Mono", monospace'; ctx.textAlign='left';
+    ctx.fillText('0 eV: ELECTRON FREE (IONISED)', lx, yT-10);
+    ctx.textAlign='right'; ctx.fillText('ENERGY AXIS COMPRESSED', W*.97, yT-10); ctx.textAlign='left';
+
+    const ey = yOf(from) + (yOf(cur)-yOf(from))*ease, ex = lx+lw*.5;
+    if(sel!==cur && anim>=1){                    /* the jump the slider is poised to make */
+      const y1=yOf(cur), y2=yOf(sel), up=sel>cur;
+      const dE = up ? E(sel)-E(cur) : E(cur)-E(sel), L = HC/dE;
+      const col = (!up && L>=380 && L<=750) ? nmToRGB(L) : 'rgba(169,161,198,.65)';
+      const axx = lx+lw*.80, back = up? 6 : -6;
+      ctx.strokeStyle=col; ctx.fillStyle=col; ctx.lineWidth=1.4;
+      ctx.setLineDash([4,4]);
+      ctx.beginPath(); ctx.moveTo(axx,y1); ctx.lineTo(axx,y2); ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.beginPath(); ctx.moveTo(axx,y2); ctx.lineTo(axx-4,y2+back); ctx.lineTo(axx+4,y2+back);
+      ctx.closePath(); ctx.fill();
+    }
+    if(anim<1){
+      ctx.strokeStyle='rgba(91,120,255,.5)'; ctx.lineWidth=1; ctx.setLineDash([3,3]);
+      ctx.beginPath(); ctx.moveTo(ex,yOf(from)); ctx.lineTo(ex,yOf(cur)); ctx.stroke(); ctx.setLineDash([]);
+    }
+    glow(ctx,ex,ey,15,'rgb(91,120,255)',.6);
+    ctx.fillStyle='#E6ECFF'; ctx.beginPath(); ctx.arc(ex,ey,4.4,0,TAU); ctx.fill();
+
+    /* the orbit picture */
+    const ax=W*.78, ay=H*.34, aR=Math.min(W*.18,H*.26);
+    for(let n=1;n<=6;n++){
+      const rr=aR*(n*n)/36;
+      ctx.strokeStyle = n===cur? C.hg : 'rgba(91,120,255,.16)';
+      ctx.lineWidth = n===cur?1.6:1;
+      ctx.beginPath(); ctx.arc(ax,ay,rr,0,TAU); ctx.stroke();
+    }
+    const orr=aR*(cur*cur)/36, oa=t*(1.6/cur);
+    glow(ctx,ax,ay,aR*.22,'rgb(240,200,120)',.5);
+    ctx.fillStyle=C.gold2; ctx.beginPath(); ctx.arc(ax,ay,3,0,TAU); ctx.fill();
+    ctx.fillStyle='#E6ECFF'; ctx.beginPath(); ctx.arc(ax+Math.cos(oa)*orr, ay+Math.sin(oa)*orr, 3.4,0,TAU); ctx.fill();
+
+    if(photon){
+      /* the packet leaves the electron and travels to the place on the plate where its
+         own line belongs. UV and IR aim past the ends of the visible strip and miss it. */
+      if(photon.x0===undefined){ photon.x0=ex; photon.y0=ey; }
+      photon.p = Math.min(1, photon.p + dt*.85);
+      const q=photon.p;
+      const tx = clamp(lineX(photon.L), PX-PW*.13, PX+PW*1.11);
+      const dx = tx-photon.x0, dy = (PY+2)-photon.y0;
+      const D = Math.hypot(dx,dy), ang = Math.atan2(dy,dx), LEN = Math.min(44, D*.42);
+      const lead = q*(D+LEN);
+      wavePacket(ctx, photon.x0, photon.y0, ang, Math.max(0,lead-LEN), Math.min(D,lead),
+                 9.5, 5.5, photon.vis? photon.col : 'rgba(169,161,198,.8)', 1, -t*13);
+      if(!photon.vis && lead>16){
+        const hx=photon.x0+Math.cos(ang)*Math.min(D,lead), hy=photon.y0+Math.sin(ang)*Math.min(D,lead);
+        ctx.fillStyle=C.ink3; ctx.font='500 9px "IBM Plex Mono", monospace';
+        ctx.textAlign='center'; ctx.textBaseline='alphabetic';
+        ctx.fillText(photon.L<380?'UV':'IR', hx, hy-10);
+      }
+      if(q>=1){ land(photon); photon=null; }
+    }
+
+    /* the photographic plate */
+    const px=PX, pw=PW, py=PY, ph=PH;
+    ctx.fillStyle='#000'; ctx.fillRect(px,py,pw,ph);
+    ctx.strokeStyle=C.line2; ctx.lineWidth=1; ctx.strokeRect(px+.5,py+.5,pw-1,ph-1);
+    lines.forEach(l=>{
+      const x=lineX(l.L);
+      const g=ctx.createLinearGradient(x-7,0,x+7,0);
+      g.addColorStop(0,'rgba(0,0,0,0)'); g.addColorStop(.5,l.col); g.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.fillStyle=g; ctx.fillRect(x-7,py+1,14,ph-2);
+      ctx.fillStyle=l.col; ctx.fillRect(x-1,py+1,2,ph-2);
+      ctx.font='500 8.5px "IBM Plex Mono", monospace'; ctx.textAlign='center'; ctx.fillStyle=l.col;
+      ctx.fillText(l.ni+'→'+l.nf, x, py-7);
+    });
+    ctx.fillStyle=C.ink3; ctx.font='500 9px "IBM Plex Mono", monospace'; ctx.textAlign='center';
+    [400,450,500,550,600,650,700].forEach(v=>{ ctx.fillText(v, lineX(v), py+ph+11); });
+    ctx.textAlign='left'; ctx.fillText('HYDROGEN EMISSION PLATE. WAVELENGTH / nm', px, py-21);
+  });
+})();
+
+/* ============================== 05 · FINE STRUCTURE ============================== */
+(function(){
+  const cv=$('#sommCanvas'), ctx=cv.getContext('2d');
+  const sK=$('#sommK'), sZ=$('#sommZoom'), lK=$('#sommKLab'), lZ=$('#sommZLab');
+  const oE=$('#sommEcc'), oS=$('#sommSplit'), verdict=$('#sommVerdict');
+  const N=3, LAM=656.28, SPLIT=0.016;                    /* Halpha fine structure, nm */
+  /* Sommerfeld: E(n,k) = -(Rhc/n^2)[1 + (alpha^2/n^2)(n/k - 3/4)]. For n=3 the three
+     sub-levels sit 2.24, 6.71 and 20.1 ueV below the plain Bohr value, so the gap
+     from k=3 to k=2 is one third of the gap from k=2 to k=1.                      */
+  const A2 = 5.3251e-5, E3 = 13.6057/9;
+  const shift = kk => -E3*(A2/9)*(3/kk - 0.75)*1e6;      /* microelectronvolts */
+  let k=3, kS=3, zoom=0, sawEllipse=false;   /* kS: the shape actually drawn, eased */
+
+  function sigma(){ return 0.05*Math.pow(0.02, zoom/100); }
+  function sync(){
+    lK.textContent='k = '+k;
+    const ecc=Math.sqrt(Math.max(0,1-(k*k)/(N*N)));
+    oE.innerHTML = ecc.toFixed(2)+' <small>'+(k===N?'(circle)':(k===1?'(narrow)':'(ellipse)'))+'</small>';
+    $('#sommShift').innerHTML = '−'+Math.abs(shift(k)).toFixed(2)+' <small>µeV</small>';
+    lZ.textContent=sigma().toFixed(3)+' nm';
+    const res = sigma() < 0.007;
+    oS.textContent = res? '2 lines' : '1 line';
+    if(k<N) sawEllipse=true;
+    if(sawEllipse && res){
+      markDone('somm', verdict,
+        'Two components where Bohr predicted one line. Orbits sharing n but differing in k sit at <b>different energies</b> once relativity is included, because an electron on a narrow ellipse passes the nucleus fast enough for the correction to register. The n=2 levels split by about 10.9 GHz, which is 0.016 nm at this wavelength. One quantum number cannot describe that.');
+    } else if(!verdict.classList.contains('win')){
+      verdict.textContent = res
+        ? 'Resolved. Now change the orbit shape to see where the second component comes from.'
+        : (k<N ? 'Same energy level, different shape. Now raise the resolving power until the red line comes apart.'
+               : 'Bohr allowed only the circle. Pull the shape slider down to give the same energy level an elliptical orbit, then raise the resolving power on the red hydrogen line.');
+    }
+  }
+  sK.addEventListener('input', ()=>{ k=+sK.value; sync(); });
+  sZ.addEventListener('input', ()=>{ zoom=+sZ.value; sync(); });
+  sync();
+
+  animate(cv,(dt,t)=>{
+    fit(cv);
+    const W=cv._w,H=cv._h; ctx.clearRect(0,0,W,H);
+
+    const px=W*.54, pw=W*.40;
+    kS += (k-kS)*(1-Math.exp(-dt/0.16));
+    if(Math.abs(k-kS) < 0.002) kS = k;
+    /* Size from the k=1 worst case (the nucleus is at a focus, so the ellipse reaches
+       cx + 1.943a), and keep the orbit clear of the sub-level diagram below it.      */
+    const reg = px-22,
+          a   = Math.min(reg/2.9428, H*.26, H*.30-22),
+          b   = a*kS/N,
+          c   = Math.sqrt(Math.max(0, a*a-b*b)),
+          cy  = H*.36,
+          cx  = 10 + (reg-(2*a+c))/2 + a;   /* centre the drawn extent at every k */
+    ctx.strokeStyle='rgba(160,92,255,.18)'; ctx.lineWidth=1; ctx.setLineDash([3,4]);
+    ctx.beginPath(); ctx.arc(cx,cy,a,0,TAU); ctx.stroke(); ctx.setLineDash([]);
+    ctx.save(); ctx.translate(cx+c,cy);
+    ctx.strokeStyle=C.hd; ctx.lineWidth=1.6;
+    ctx.beginPath(); ctx.ellipse(0,0,a,b,0,0,TAU); ctx.stroke();
+    const th=t*1.1, ex=Math.cos(th)*a, ey=Math.sin(th)*b;
+    glow(ctx,ex,ey,12,'rgb(160,92,255)',.55);
+    ctx.fillStyle='#F0E4FF'; ctx.beginPath(); ctx.arc(ex,ey,3.4,0,TAU); ctx.fill();
+    ctx.restore();
+    glow(ctx,cx,cy,16,'rgb(240,200,120)',.5);
+    ctx.fillStyle=C.gold2; ctx.beginPath(); ctx.arc(cx,cy,3.4,0,TAU); ctx.fill();
+    ctx.fillStyle=C.ink3; ctx.font='500 9px "IBM Plex Mono", monospace'; ctx.textAlign='center'; ctx.textBaseline='alphabetic';
+    ctx.fillText('NUCLEUS SITS AT A FOCUS', cx, H*.09);
+
+    /* the sub-levels those shapes sit on: one n, three energies */
+    const ly = H*.69, u = Math.max(11, H*.05), lx0 = 52,
+          lw2 = Math.min(90, px-12-lx0-72);
+    ctx.textAlign='left'; ctx.fillStyle=C.ink3; ctx.font='500 9px "IBM Plex Mono", monospace';
+    ctx.fillText('n = 3 SITS ON THREE SUB-LEVELS', 16, ly-11);
+    ctx.textBaseline='middle';
+    [[3,0],[2,1],[1,4]].forEach(r=>{               /* gaps are 1 : 3, from the formula */
+      const y = ly + r[1]*u, on = r[0]===k;
+      ctx.strokeStyle = on? C.hd : 'rgba(160,92,255,.30)';
+      ctx.lineWidth = on? 2 : 1;
+      ctx.beginPath(); ctx.moveTo(lx0,y); ctx.lineTo(lx0+lw2,y); ctx.stroke();
+      ctx.fillStyle = on? C.ink : C.ink3;
+      ctx.font = (on?'600 ':'500 ')+'9px "IBM Plex Mono", monospace';
+      ctx.textAlign='right'; ctx.fillText('k='+r[0], lx0-7, y);
+    });
+    const bx = lx0+lw2+6, y3 = ly, y1 = ly+4*u;
+    ctx.strokeStyle='rgba(160,92,255,.5)'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(bx-4,y3); ctx.lineTo(bx,y3); ctx.lineTo(bx,y1); ctx.lineTo(bx-4,y1); ctx.stroke();
+    ctx.fillStyle=C.hd; ctx.textAlign='left'; ctx.font='500 9px "IBM Plex Mono", monospace';
+    ctx.fillText('17.9 µeV', bx+5, (y3+y1)/2);
+    ctx.textBaseline='alphabetic';
+
+    /* the line under the spectroscope, right */
+    const py=H*.30, ph=H*.20, s=sigma(), half=0.05;
+    ctx.fillStyle='#000'; ctx.fillRect(px,py,pw,ph);
+    ctx.strokeStyle=C.line2; ctx.strokeRect(px+.5,py+.5,pw-1,ph-1);
+    const prof=[]; let mx=0;
+    for(let i=0;i<=200;i++){
+      const dl=-half+2*half*i/200;
+      const v=Math.exp(-Math.pow((dl+SPLIT/2)/s,2)/2)+Math.exp(-Math.pow((dl-SPLIT/2)/s,2)/2);
+      prof.push(v); if(v>mx) mx=v;
+    }
+    prof.forEach((v,i)=>{
+      const x=px+pw*i/200, al=Math.min(1,v/mx);
+      ctx.fillStyle='rgba(255,59,78,'+al+')';
+      ctx.fillRect(x,py+1,pw/200+1,ph-2);
+    });
+    /* intensity trace */
+    const ty=H*.80, tH=H*.20;
+    ctx.strokeStyle=C.ha; ctx.lineWidth=1.5; ctx.beginPath();
+    prof.forEach((v,i)=>{ const x=px+pw*i/200, y=ty-(v/mx)*tH; i?ctx.lineTo(x,y):ctx.moveTo(x,y); });
+    ctx.stroke();
+    ctx.strokeStyle='rgba(169,161,198,.25)'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(px,ty); ctx.lineTo(px+pw,ty); ctx.stroke();
+    ctx.fillStyle=C.ink3; ctx.font='500 9px "IBM Plex Mono", monospace'; ctx.textAlign='center';
+    ctx.fillText('Hα  656.28 nm', px+pw/2, py-9);
+    ctx.fillText('WINDOW IS ±0.05 nm WIDE', px+pw/2, ty+14);
+    if(s<0.007){
+      /* the callout sits in the gap between plate and trace, labelled to one side:
+         stacking it above the bracket collides with the plate on a phone.        */
+      const gy = (py+ph + (ty-tH))/2;
+      const x1 = px+pw*(0.5-SPLIT/2/(2*half)), x2 = px+pw*(0.5+SPLIT/2/(2*half));
+      ctx.strokeStyle='rgba(240,200,120,.75)'; ctx.lineWidth=1;
+      ctx.beginPath();
+      ctx.moveTo(x1,gy);   ctx.lineTo(x2,gy);
+      ctx.moveTo(x1,gy-3); ctx.lineTo(x1,gy+3);
+      ctx.moveTo(x2,gy-3); ctx.lineTo(x2,gy+3);
+      ctx.stroke();
+      ctx.fillStyle=C.gold2; ctx.textAlign='left'; ctx.textBaseline='middle';
+      ctx.fillText('0.016 nm', x2+6, gy);
+      ctx.textAlign='center'; ctx.textBaseline='alphabetic';
+    }
+  });
+})();
+
+/* ============================== 06 · THE DETECTOR ============================== */
+(function(){
+  const cv=$('#qCanvas'), ctx=cv.getContext('2d');
+  const oC=$('#qCount'), oL=$('#qLast'), verdict=$('#qVerdict');
+  const NOTE={'1s':'A single sphere, densest at the nucleus and fading outwards. No nodes.',
+              '2s':'A sphere inside a shell, separated by a spherical node: an entire surface where the electron is never found.',
+              '2p':'Two lobes and a flat nodal plane through the nucleus. The electron is never found on that plane, yet it moves between the lobes.',
+              '3d':'Two lobes plus a ring around the waist. Shapes like this are why the periodic table has the block structure it has.'};
+  /* The rate ramps. It opens at 60 a second so you watch single dots land in different
+     places, and accelerates as the plate fills, because by then the pattern is the
+     point rather than the individual measurement. Reaching a legible shape takes
+     about seven seconds, which is the argument the station is making.            */
+  const rateNow = () => 60 + Math.min(pts.length, 3000)*0.25;
+  let orb='1s', pts=[], cont=true, acc=0, plate=null, pctx=null, drawn=0, winOrb=null;
+
+  function ensure(){
+    const W=cv._w,H=cv._h;
+    if(!plate || plate.width!==cv.width || plate.height!==cv.height){
+      plate=document.createElement('canvas'); plate.width=cv.width; plate.height=cv.height;
+      pctx=plate.getContext('2d'); pctx.setTransform(cv._dpr,0,0,cv._dpr,0,0);
+      drawn=0;
+    }
+  }
+  function blit(from){
+    const W=cv._w,H=cv._h, k=Math.min(W,H)*.44/ORB[orb].box;
+    pctx.globalCompositeOperation='lighter';
+    for(let i=from;i<pts.length;i++){
+      const p=pts[i], x=W/2+p[0]*k, y=H/2-p[1]*k;
+      pctx.fillStyle='rgba(47,227,198,.42)';
+      pctx.beginPath(); pctx.arc(x,y,1.15,0,TAU); pctx.fill();
+    }
+    pctx.globalCompositeOperation='source-over';
+    drawn=pts.length;
+  }
+  function report(){
+    if(pts.length){
+      const p=pts[pts.length-1];
+      oL.innerHTML = Math.hypot(p[0],p[1]).toFixed(2)+' <small>a₀</small>';
+    }
+    oC.textContent = pts.length.toLocaleString();
+    const c=pts.length;
+    const won = () => '<b>'+c.toLocaleString()+' measurements.</b> No single one told you anything; together they are the <b>'+orb+' orbital</b>. '+NOTE[orb]+' The distribution replaces the path. Orbital shapes of this kind give the s, p, d and f blocks of the periodic table and the geometry of covalent bonds.';
+    if(c>=900 && !verdict.classList.contains('win')){
+      markDone('quantum', verdict, won()); winOrb=orb;
+    } else if(c>=900 && winOrb!==orb){
+      verdict.innerHTML = won(); winOrb=orb;          /* describe the cloud on screen now */
+    } else if(!verdict.classList.contains('win') && c>0){
+      verdict.textContent = c<60
+        ? 'Measurement '+c+'. Nothing yet. One dot is not a shape.'
+        : 'Measurement '+c+'. A pattern is starting. It takes several hundred before the orbital shape is unambiguous.';
+    }
+  }
+  const bRun=$('#qMany');
+  function setBtn(){ bRun.setAttribute('aria-pressed',String(cont));
+    bRun.textContent = cont?'Stop the detector':'Start the detector'; }
+  function wipe(){ pts=[]; drawn=0; acc=0; if(pctx) pctx.clearRect(0,0,cv._w,cv._h);
+    oC.textContent='0'; oL.innerHTML='&ndash;'; }
+  bRun.addEventListener('click', ()=>{ cont=!cont; setBtn(); });
+  $('#qClear').addEventListener('click', wipe);
+  seg($('#s6'),'data-orb', v=>{ orb=v; wipe(); });   /* a new orbital means a new plate */
+
+  animate(cv,(dt,t)=>{
+    const resized=fit(cv); ensure();
+    const W=cv._w,H=cv._h;
+    if(resized){ pctx.clearRect(0,0,W,H); drawn=0; }
+    if(cont && pts.length<26000){
+      acc += dt*rateNow();
+      let k=Math.floor(acc); acc-=k;
+      while(k-->0) pts.push(sampleOrb(orb));
+      report();
+    }
+    if(drawn<pts.length) blit(drawn);
+    ctx.clearRect(0,0,W,H);
+
+    const k=Math.min(W,H)*.44/ORB[orb].box;
+    ctx.strokeStyle='rgba(169,161,198,.10)'; ctx.lineWidth=1;
+    ctx.beginPath(); ctx.moveTo(W*.06,H/2); ctx.lineTo(W*.94,H/2); ctx.moveTo(W/2,H*.05); ctx.lineTo(W/2,H*.95); ctx.stroke();
+    if(orb==='2p'){
+      ctx.strokeStyle='rgba(255,59,78,.35)'; ctx.setLineDash([4,5]);
+      ctx.beginPath(); ctx.moveTo(W*.1,H/2); ctx.lineTo(W*.9,H/2); ctx.stroke(); ctx.setLineDash([]);
+      ctx.fillStyle='rgba(255,59,78,.75)'; ctx.font='500 9px "IBM Plex Mono", monospace'; ctx.textAlign='left';
+      ctx.fillText('NODAL PLANE: NEVER FOUND HERE', W*.1, H/2-7);
+    }
+    ctx.drawImage(plate,0,0,W,H);
+
+    ctx.fillStyle=C.gold2; ctx.beginPath(); ctx.arc(W/2,H/2,2,0,TAU); ctx.fill();
+    /* scale bar in Bohr radii */
+    const bar=k*(orb==='3d'?10:orb==='1s'?2:5), bl=orb==='3d'?'10 a₀':orb==='1s'?'2 a₀':'5 a₀';
+    ctx.strokeStyle=C.ink3; ctx.lineWidth=1.2;
+    ctx.beginPath(); ctx.moveTo(W*.08,H*.9); ctx.lineTo(W*.08+bar,H*.9);
+    ctx.moveTo(W*.08,H*.885); ctx.lineTo(W*.08,H*.915);
+    ctx.moveTo(W*.08+bar,H*.885); ctx.lineTo(W*.08+bar,H*.915); ctx.stroke();
+    ctx.fillStyle=C.ink3; ctx.font='500 9px "IBM Plex Mono", monospace'; ctx.textAlign='left';
+    ctx.fillText(bl+'  ·  a₀ = 0.0529 nm', W*.08+bar+9, H*.9+3.5);
+    ctx.textAlign='right'; ctx.fillStyle=C.hb;
+    ctx.fillText(orb.toUpperCase()+' ORBITAL', W*.94, H*.12);
+  });
+})();
+
+})();
+</script>
+
+</body>
+</html>
